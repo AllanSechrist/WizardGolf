@@ -16,16 +16,6 @@ func _physics_process(delta: float) -> void:
 	var mouse_pos := get_global_mouse_position()
 	pivot.look_at(mouse_pos)
 	
-	if Input.is_action_just_pressed("explode"):
-		trigger_explosion()
-		
-	if is_on_floor():
-		velocity.x = 0
-	else:
-		velocity.y += gravity * delta
-		
-	move_and_slide()
-	
 func trigger_explosion() -> void:
 	var direction := (global_position - get_global_mouse_position()).normalized()
 	velocity = direction * launch_speed
