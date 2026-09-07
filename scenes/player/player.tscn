@@ -8,8 +8,7 @@
 radius = 6.0
 height = 18.0
 
-[node name="Player" type="RigidBody2D" unique_id=296182955]
-lock_rotation = true
+[node name="Player" type="CharacterBody2D" unique_id=1168880997]
 script = ExtResource("1_dovo2")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=254580943]
