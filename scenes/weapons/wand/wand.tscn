@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://de3udva0wt72i"]
+
+[ext_resource type="Texture2D" uid="uid://chyg6ft0lpnfw" path="res://assets/Tiles/tile_0129.png" id="1_80m2d"]
+
+[node name="Wand" type="Node2D" unique_id=170860018]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=123263490]
+texture = ExtResource("1_80m2d")
