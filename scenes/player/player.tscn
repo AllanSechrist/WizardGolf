@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://78p0a4fqr48q" path="res://assets/Tiles/tile_0084.png" id="1_8afob"]
 [ext_resource type="Script" uid="uid://bf7xvoe0cac7" path="res://scenes/player/player.gd" id="1_dovo2"]
+[ext_resource type="PackedScene" uid="uid://b31euccfq3raq" path="res://scenes/player/trajectory_preview.tscn" id="2_0owmy"]
 [ext_resource type="Texture2D" uid="uid://chyg6ft0lpnfw" path="res://assets/Tiles/tile_0129.png" id="3_gmlin"]
 [ext_resource type="Script" uid="uid://tpnnv4k5juvm" path="res://scripts/state_machine.gd" id="4_lvxji"]
 [ext_resource type="Script" uid="uid://qyxm4fpmv38p" path="res://scenes/player/states/grounded.gd" id="5_75vfm"]
@@ -13,6 +14,14 @@ height = 18.0
 
 [node name="Player" type="CharacterBody2D" unique_id=1168880997]
 script = ExtResource("1_dovo2")
+
+[node name="TrajectoryPreview" parent="." unique_id=1685084769 node_paths=PackedStringArray("player") instance=ExtResource("2_0owmy")]
+player = NodePath("..")
+max_steps = null
+dot_step_time = null
+dot_radius = null
+dot_color = null
+collision_mask = null
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=254580943]
 texture = ExtResource("1_8afob")

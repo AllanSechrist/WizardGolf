@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://b31euccfq3raq"]
+
+[ext_resource type="Script" uid="uid://csmi82y8cw54x" path="res://scenes/player/trajectory_preview.gd" id="1_3pcvs"]
+
+[node name="TrajectoryPreview" type="Node2D" unique_id=1685084769]
+script = ExtResource("1_3pcvs")

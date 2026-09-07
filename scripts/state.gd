@@ -9,10 +9,10 @@ func handle_input(_event: InputEvent) -> void:
 func update(_delta: float) -> void:
 	pass
 	
-func _physics_update(_delta: float) -> void:
+func physics_update(_delta: float) -> void:
 	pass
 	
-func enter(previos_state_path: String, data := {}) -> void:
+func enter(previous_state_path: String, data := {}) -> void:
 	pass
 	
 func exit() -> void:

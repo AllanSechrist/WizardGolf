@@ -3,6 +3,7 @@ class_name Player
 
 @onready var camera_2d: Camera2D = $Camera2D
 @onready var pivot: Marker2D = $Pivot
+@onready var trajectory_preview: TrajectoryPreview = $TrajectoryPreview
 
 @export var launch_speed := 500.0
 @export var gravity := 1200.0
@@ -16,8 +17,11 @@ func _physics_process(delta: float) -> void:
 	var mouse_pos := get_global_mouse_position()
 	pivot.look_at(mouse_pos)
 	
+func get_launch_direction() -> Vector2:
+	return (global_position - get_global_mouse_position()).normalized()
+		
 func trigger_explosion() -> void:
-	var direction := (global_position - get_global_mouse_position()).normalized()
+	var direction := get_launch_direction()
 	velocity = direction * launch_speed
 	
 	var fx := ExplosionEffect.instantiate()
