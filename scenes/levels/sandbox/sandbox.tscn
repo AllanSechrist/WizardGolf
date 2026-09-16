@@ -24,8 +24,9 @@ tile_set = SubResource("TileSet_de53b")
 [node name="Player" parent="." unique_id=296182955 instance=ExtResource("2_hxtk3")]
 position = Vector2(322, 324)
 
-[node name="Enemy" parent="." unique_id=203970126 instance=ExtResource("3_de53b")]
+[node name="Enemy" parent="." unique_id=203970126 node_paths=PackedStringArray("hud") instance=ExtResource("3_de53b")]
 position = Vector2(514, 345)
 data = ExtResource("4_1qtr1")
+hud = NodePath("../HUD")
 
 [node name="HUD" parent="." unique_id=1723985637 instance=ExtResource("5_3p4x5")]
