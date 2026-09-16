@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://bxjnx0sp7fwn5"]
+
+[ext_resource type="Script" uid="uid://bof3o41yciros" path="res://scenes/hud/hud.gd" id="1_48c2t"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_cgeww"]
+
+[node name="HUD" type="CanvasLayer" unique_id=1723985637]
+script = ExtResource("1_48c2t")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=462520900]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 0
+
+[node name="Score" type="Label" parent="MarginContainer" unique_id=1701617981]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_vertical = 0
+text = "Score: 9999"
+label_settings = SubResource("LabelSettings_cgeww")
+horizontal_alignment = 1

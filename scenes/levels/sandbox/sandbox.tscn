@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://b2vt6xhyn30i3" path="res://scenes/player/player.tscn" id="2_hxtk3"]
 [ext_resource type="PackedScene" uid="uid://d0m4sgnenj6sh" path="res://scenes/Enemy/enemy.tscn" id="3_de53b"]
 [ext_resource type="Resource" uid="uid://c57hba2ar8slb" path="res://custom_resources/enemies/slime_data.tres" id="4_1qtr1"]
+[ext_resource type="PackedScene" uid="uid://bxjnx0sp7fwn5" path="res://scenes/hud/hud.tscn" id="5_3p4x5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hxtk3"]
 texture = ExtResource("1_espmd")
@@ -26,3 +27,5 @@ position = Vector2(322, 324)
 [node name="Enemy" parent="." unique_id=203970126 instance=ExtResource("3_de53b")]
 position = Vector2(514, 345)
 data = ExtResource("4_1qtr1")
+
+[node name="HUD" parent="." unique_id=1723985637 instance=ExtResource("5_3p4x5")]
