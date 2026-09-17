@@ -6,6 +6,6 @@ class_name HUD
 func _ready() -> void:
 	score.text = "Score: %d" % 0
 	
-func on_score_changed(new_score) -> void:
+func update_score(new_score) -> void:
 	# TODO change to singal call back
 	score.text = "Score: %d" % new_score

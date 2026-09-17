@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://736ratg10yft"]
+
+[ext_resource type="Script" uid="uid://cml78sievh21h" path="res://scenes/managers/enemy_manager.gd" id="1_tfsap"]
+
+[node name="EnemyManager" type="Node" unique_id=144181799]
+script = ExtResource("1_tfsap")

@@ -1,6 +1,8 @@
 [gd_scene format=4 uid="uid://cdp0drphjiprf"]
 
+[ext_resource type="Script" uid="uid://doffr7qrqo0rw" path="res://scripts/managers/game_manager.gd" id="1_caqlm"]
 [ext_resource type="Texture2D" uid="uid://cl1m8tbaa81as" path="res://assets/Tiles/tile_0040.png" id="1_espmd"]
+[ext_resource type="PackedScene" uid="uid://736ratg10yft" path="res://scenes/managers/enemy_manager.tscn" id="2_hf2it"]
 [ext_resource type="PackedScene" uid="uid://b2vt6xhyn30i3" path="res://scenes/player/player.tscn" id="2_hxtk3"]
 [ext_resource type="PackedScene" uid="uid://d0m4sgnenj6sh" path="res://scenes/Enemy/enemy.tscn" id="3_de53b"]
 [ext_resource type="Resource" uid="uid://c57hba2ar8slb" path="res://custom_resources/enemies/slime_data.tres" id="4_1qtr1"]
@@ -16,6 +18,13 @@ physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_hxtk3")
 
 [node name="Sandbox" type="Node2D" unique_id=1238270693]
+script = ExtResource("1_caqlm")
+
+[node name="EnemyManager" parent="." unique_id=144181799 instance=ExtResource("2_hf2it")]
+
+[node name="Enemy" parent="EnemyManager" unique_id=203970126 instance=ExtResource("3_de53b")]
+position = Vector2(514, 345)
+data = ExtResource("4_1qtr1")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1787881906]
 tile_map_data = PackedByteArray("AAAQABYAAAAAAAAAAAARABYAAAAAAAAAAAASABYAAAAAAAAAAAATABYAAAAAAAAAAAAUABYAAAAAAAAAAAAVABYAAAAAAAAAAAAWABYAAAAAAAAAAAAXABYAAAAAAAAAAAAPABYAAAAAAAAAAAAOABYAAAAAAAAAAAANABYAAAAAAAAAAAAMABYAAAAAAAAAAAALABYAAAAAAAAAAAAKAA0AAAAAAAAAAAAKAA4AAAAAAAAAAAAKAA8AAAAAAAAAAAAKABAAAAAAAAAAAAAKABEAAAAAAAAAAAAKABIAAAAAAAAAAAAKABMAAAAAAAAAAAAKABQAAAAAAAAAAAAKABUAAAAAAAAAAAAKABYAAAAAAAAAAAAKAAwAAAAAAAAAAAAKAAsAAAAAAAAAAAAKAAoAAAAAAAAAAAAYABYAAAAAAAAAAAAZABYAAAAAAAAAAAAaABYAAAAAAAAAAAAbABYAAAAAAAAAAAAcABYAAAAAAAAAAAAdABYAAAAAAAAAAAAeABYAAAAAAAAAAAAfABYAAAAAAAAAAAAgABYAAAAAAAAAAAAhABYAAAAAAAAAAAAiABYAAAAAAAAAAAAjABYAAAAAAAAAAAAkABYAAAAAAAAAAAAlABYAAAAAAAAAAAAmABYAAAAAAAAAAAAnABYAAAAAAAAAAAAnABUAAAAAAAAAAAAnABQAAAAAAAAAAAAnABMAAAAAAAAAAAAnABIAAAAAAAAAAAAnABEAAAAAAAAAAAAnABAAAAAAAAAAAAAnAA8AAAAAAAAAAAAnAA4AAAAAAAAAAAAnAA0AAAAAAAAAAAAnAAwAAAAAAAAAAAAnAAsAAAAAAAAAAAAnAAoAAAAAAAAAAAAnAAkAAAAAAAAAAAA=")
@@ -23,10 +32,5 @@ tile_set = SubResource("TileSet_de53b")
 
 [node name="Player" parent="." unique_id=296182955 instance=ExtResource("2_hxtk3")]
 position = Vector2(322, 324)
-
-[node name="Enemy" parent="." unique_id=203970126 node_paths=PackedStringArray("hud") instance=ExtResource("3_de53b")]
-position = Vector2(514, 345)
-data = ExtResource("4_1qtr1")
-hud = NodePath("../HUD")
 
 [node name="HUD" parent="." unique_id=1723985637 instance=ExtResource("5_3p4x5")]
