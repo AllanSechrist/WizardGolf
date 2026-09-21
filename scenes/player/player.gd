@@ -10,6 +10,8 @@ class_name Player
 @export_range(0.0, 1.0, 0.01) var bounciness := 0.6
 @export var friction := 1.0
 
+signal turn_finished
+
 const ExplosionEffect := preload("res://scenes/FX/explosion/explosion.tscn")
 
 func _ready() -> void:
@@ -29,3 +31,9 @@ func trigger_explosion() -> void:
 	var fx := ExplosionEffect.instantiate()
 	fx.global_position = global_position
 	get_tree().current_scene.add_child(fx)
+
+func turn_start() -> void:
+	print("Turn Start!")
+
+func end_turn() -> void:
+	turn_finished.emit()

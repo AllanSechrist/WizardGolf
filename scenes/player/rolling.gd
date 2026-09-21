@@ -28,3 +28,6 @@ func physics_update(_delta: float) -> void:
 		
 	if player.velocity == Vector2.ZERO:
 		finished.emit(GROUNDED)
+		
+func exit() -> void:
+	player.end_turn()
