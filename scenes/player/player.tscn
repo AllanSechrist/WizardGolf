@@ -19,11 +19,7 @@ script = ExtResource("1_dovo2")
 
 [node name="TrajectoryPreview" parent="." unique_id=1685084769 node_paths=PackedStringArray("player") instance=ExtResource("2_0owmy")]
 player = NodePath("..")
-max_steps = null
-dot_step_time = null
-dot_radius = null
-dot_color = null
-collision_mask = null
+preview_length_ratio = 0.1
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=254580943]
 texture = ExtResource("1_8afob")

@@ -46,6 +46,7 @@ tile_set = SubResource("TileSet_de53b")
 
 [node name="Player" parent="." unique_id=296182955 instance=ExtResource("2_hxtk3")]
 position = Vector2(322, 324)
+bounciness = 0.75
 friction = 30.0
 
 [node name="HUD" parent="." unique_id=1723985637 instance=ExtResource("5_3p4x5")]
