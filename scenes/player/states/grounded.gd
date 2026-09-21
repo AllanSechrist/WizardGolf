@@ -6,8 +6,9 @@ func enter(previous_state_path: String, data := {}) -> void:
 	# TODO Animation player transition
 	
 func physics_update(_delta: float) -> void:
-	player.velocity.y += player.gravity * _delta
+	#player.velocity.y += player.gravity * _delta
 	player.move_and_slide()
 	
 	if Input.is_action_just_pressed("explode"):
-		finished.emit(AIRBORNE)
+		finished.emit(ROLLING)
+	

@@ -7,12 +7,14 @@
 [ext_resource type="Script" uid="uid://tpnnv4k5juvm" path="res://scripts/state/state_machine.gd" id="4_lvxji"]
 [ext_resource type="Script" uid="uid://qyxm4fpmv38p" path="res://scenes/player/states/grounded.gd" id="5_75vfm"]
 [ext_resource type="Script" uid="uid://dmjio1fklyf3o" path="res://scenes/player/states/airborne.gd" id="6_0owmy"]
+[ext_resource type="Script" uid="uid://cvgjhnxfqlo23" path="res://scenes/player/rolling.gd" id="8_qek5x"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dovo2"]
 radius = 6.0
 height = 18.0
 
 [node name="Player" type="CharacterBody2D" unique_id=1168880997]
+motion_mode = 1
 script = ExtResource("1_dovo2")
 
 [node name="TrajectoryPreview" parent="." unique_id=1685084769 node_paths=PackedStringArray("player") instance=ExtResource("2_0owmy")]
@@ -46,3 +48,6 @@ script = ExtResource("5_75vfm")
 
 [node name="Airborne" type="Node" parent="StateMachine" unique_id=1366713600]
 script = ExtResource("6_0owmy")
+
+[node name="Rolling" type="Node" parent="StateMachine" unique_id=1970532316]
+script = ExtResource("8_qek5x")
