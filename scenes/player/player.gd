@@ -7,6 +7,8 @@ class_name Player
 
 @export var launch_speed := 500.0
 @export var gravity := 1200.0
+@export_range(0.0, 1.0, 0.01) var bounciness := 0.6
+@export var friction := 1.0
 
 const ExplosionEffect := preload("res://scenes/FX/explosion/explosion.tscn")
 
