@@ -20,6 +20,20 @@ func _ready() -> void:
 	enemies = get_children()
 	print(enemies)
 
+func _on_last_enemy() -> void:
+	# TODO
+	# get final enemy from array
+	# transition camera from player to enemy (signal to game manager)
+	# transformation animation / replace with golf hole scene.
+	# transition camera back to player (signal to game manager)
+	print("Last Enemy!")
+
 func _on_defeat(enemy: Enemy) -> void:
 	update_score.emit(1)
+	enemies.erase(enemy) # remove from Array
+	print(enemies) #DEBUG
+	
+	if enemies.size() <= 1:
+		_on_last_enemy()
+	
 	enemy.die()
