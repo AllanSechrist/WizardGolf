@@ -11,6 +11,7 @@ class_name GameManager
 
 var score = 0
 var turn = 1
+var goal = null
 
 func _ready() -> void:
 	# Enemy Manager
@@ -23,13 +24,16 @@ func _ready() -> void:
 	# Camera
 	follow.remote_path = follow.get_path_to(camera_2d)
 	
-func play_goal_reveal(target: Node2D) -> void:
+	# Reset
+	goal = null
+	
+func play_goal_reveal(goal: Node2D) -> void:
 	get_tree().paused = true
 	follow.update_position = false
 	
-	await _pan_camera_to(target.global_position)
+	await _pan_camera_to(goal.global_position)
 	
-	#TODO enemy animations
+	goal.become_goal() # I suspect this will cause issues in the future, I'm not sure why yet though.
 	
 	await get_tree().create_timer(1.0, true).timeout
 	
@@ -55,6 +59,10 @@ func _on_turn_finished() -> void:
 	hud.update_turn(turn)
 	
 func _on_final_enemy(enemy) -> void:
-	print("Final Enemy!")
-	print(enemy)
-	play_goal_reveal(enemy)
+	goal = enemy
+	goal.putt_made.connect(_on_putt_made)
+	play_goal_reveal(goal)
+	
+func _on_putt_made() -> void:
+	print("Putt Made")
+	

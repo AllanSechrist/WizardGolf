@@ -34,9 +34,11 @@ func _on_last_enemy() -> void:
 func _on_defeat(enemy: Enemy) -> void:
 	update_score.emit(1)
 	enemies.erase(enemy) # remove from Array
-	print(enemies) #DEBUG
 	
-	if enemies.size() <= 1:
+	if enemies.size() == 1:
 		_on_last_enemy()
 	
-	enemy.die()
+	if enemy.is_goal:
+		enemy.made_putt()
+	else:
+		enemy.die()
