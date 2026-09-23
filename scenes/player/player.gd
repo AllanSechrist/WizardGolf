@@ -1,7 +1,6 @@
 extends CharacterBody2D
 class_name Player
 
-@onready var camera_2d: Camera2D = $Camera2D
 @onready var pivot: Marker2D = $Pivot
 @onready var trajectory_preview: TrajectoryPreview = $TrajectoryPreview
 
@@ -14,8 +13,8 @@ signal turn_finished
 
 const ExplosionEffect := preload("res://scenes/FX/explosion/explosion.tscn")
 
-func _ready() -> void:
-	camera_2d.global_position = global_position
+#func _ready() -> void:
+	#camera_2d.global_position = global_position
 	
 func _physics_process(delta: float) -> void:
 	var mouse_pos := get_global_mouse_position()

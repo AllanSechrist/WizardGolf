@@ -33,8 +33,6 @@ position = Vector2(15, 0)
 rotation = 1.5707964
 texture = ExtResource("3_gmlin")
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=1005631735]
-
 [node name="StateMachine" type="Node" parent="." unique_id=296090880]
 script = ExtResource("4_lvxji")
 
@@ -46,3 +44,7 @@ script = ExtResource("6_0owmy")
 
 [node name="Rolling" type="Node" parent="StateMachine" unique_id=1970532316]
 script = ExtResource("8_qek5x")
+
+[node name="CameraTransform" type="RemoteTransform2D" parent="." unique_id=1302995004]
+update_rotation = false
+update_scale = false

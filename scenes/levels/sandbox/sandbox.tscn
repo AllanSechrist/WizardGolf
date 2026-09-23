@@ -20,6 +20,8 @@ sources/0 = SubResource("TileSetAtlasSource_hxtk3")
 [node name="Sandbox" type="Node2D" unique_id=1238270693]
 script = ExtResource("1_caqlm")
 
+[node name="Camera2D" type="Camera2D" parent="." unique_id=461109513]
+
 [node name="EnemySpawns" type="Node" parent="." unique_id=1816441359]
 
 [node name="EnemySpawnPoint" parent="EnemySpawns" unique_id=1045696050 instance=ExtResource("2_tsojc")]

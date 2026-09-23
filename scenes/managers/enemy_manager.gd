@@ -6,6 +6,7 @@ class_name EnemyManager
 var enemy_scene := preload("res://scenes/Enemy/enemy.tscn")
 
 signal update_score(int)
+signal final_enemy(enemy: Enemy)
 
 var enemies: Array
 
@@ -22,11 +23,13 @@ func _ready() -> void:
 
 func _on_last_enemy() -> void:
 	# TODO
-	# get final enemy from array
+	if enemies.size() == 1:
+		final_enemy.emit(enemies.pop_front())
+	else:
+		print("enemy array is not 1 it is %d" % enemies.size())
+	
 	# transition camera from player to enemy (signal to game manager)
-	# transformation animation / replace with golf hole scene.
 	# transition camera back to player (signal to game manager)
-	print("Last Enemy!")
 
 func _on_defeat(enemy: Enemy) -> void:
 	update_score.emit(1)
