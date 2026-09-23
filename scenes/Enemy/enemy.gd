@@ -1,13 +1,10 @@
 extends Area2D
 class_name Enemy
 
-signal defeat(Enemy)
-signal putt_made
+signal defeat(enemy: Enemy)
 
 @export var data: EnemyData
 @onready var sprite_2d: Sprite2D = $Sprite2D
-
-var is_goal := false
 
 func _ready() -> void:
 	if data:
@@ -16,18 +13,10 @@ func _ready() -> void:
 func _on_body_entered(body: Node2D) -> void:
 	if body is Player:
 		defeat.emit(self)
-		
-func become_goal() -> void:
-	is_goal = true
-	# Animation stuff?
-
-func made_putt() -> void:
-	# check if the player has met the correct conditions 
-	# to end the hole
-	#TODO: Check Speed
-	#TODO: Check Distance
-	putt_made.emit()
-	
 
 func die() -> void:
 	queue_free()
+	
+func play_transformation() -> void:
+	print("Animation!")
+	await get_tree().create_timer(1.0, true).timeout

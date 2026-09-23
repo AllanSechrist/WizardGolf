@@ -16,7 +16,7 @@ const ExplosionEffect := preload("res://scenes/FX/explosion/explosion.tscn")
 #func _ready() -> void:
 	#camera_2d.global_position = global_position
 	
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	var mouse_pos := get_global_mouse_position()
 	pivot.look_at(mouse_pos)
 	

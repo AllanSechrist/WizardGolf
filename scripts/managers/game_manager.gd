@@ -24,19 +24,14 @@ func _ready() -> void:
 	# Camera
 	follow.remote_path = follow.get_path_to(camera_2d)
 	
-	# Reset
-	goal = null
-	
-func play_goal_reveal(goal: Node2D) -> void:
+func play_goal_reveal(enemy: Node2D) -> void:
 	get_tree().paused = true
 	follow.update_position = false
 	
-	await _pan_camera_to(goal.global_position)
-	
-	goal.become_goal() # I suspect this will cause issues in the future, I'm not sure why yet though.
-	
-	await get_tree().create_timer(1.0, true).timeout
-	
+	await _pan_camera_to(enemy.global_position)
+	await enemy.play_transformation()
+	var hole := enemy_manager.turn_into_hole(enemy)
+	hole.putt_made.connect(_on_putt_made)
 	await _pan_camera_to(player.global_position)
 	
 	follow.update_position = true
@@ -49,7 +44,6 @@ func _pan_camera_to(pos: Vector2) -> void:
 	tween.tween_property(camera_2d, "global_position", pos, pan_time)
 	await tween.finished
 
-
 func _on_score_change(points: int) -> void:
 	score += points
 	hud.update_score(score)
@@ -58,10 +52,8 @@ func _on_turn_finished() -> void:
 	turn += 1
 	hud.update_turn(turn)
 	
-func _on_final_enemy(enemy) -> void:
-	goal = enemy
-	goal.putt_made.connect(_on_putt_made)
-	play_goal_reveal(goal)
+func _on_final_enemy(enemy: Enemy) -> void:
+	play_goal_reveal(enemy)
 	
 func _on_putt_made() -> void:
 	print("Putt Made")

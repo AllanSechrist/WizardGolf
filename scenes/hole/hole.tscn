@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://edbm2gyyx1ue"]
+
+[ext_resource type="Script" uid="uid://cjjo452itwt1j" path="res://scenes/hole/hole.gd" id="1_vjmb2"]
+[ext_resource type="Texture2D" uid="uid://dblb85dk1y1lo" path="res://assets/Tiles/tile_0009.png" id="2_n61ei"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ga36a"]
+
+[node name="Hole" type="Area2D" unique_id=297257358]
+script = ExtResource("1_vjmb2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=41935025]
+shape = SubResource("CircleShape2D_ga36a")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1058639583]
+texture = ExtResource("2_n61ei")
