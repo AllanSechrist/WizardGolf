@@ -3,6 +3,7 @@ class_name Player
 
 @onready var pivot: Marker2D = $Pivot
 @onready var trajectory_preview: TrajectoryPreview = $TrajectoryPreview
+@onready var power_meter: Control = $PowerMeter
 
 @export var launch_speed := 500.0
 @export var gravity := 1200.0
@@ -13,8 +14,8 @@ signal turn_finished
 
 const ExplosionEffect := preload("res://scenes/FX/explosion/explosion.tscn")
 
-#func _ready() -> void:
-	#camera_2d.global_position = global_position
+func _ready() -> void:
+	power_meter.visible = false
 	
 func _physics_process(_delta: float) -> void:
 	var mouse_pos := get_global_mouse_position()

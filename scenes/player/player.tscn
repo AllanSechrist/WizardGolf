@@ -12,6 +12,12 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qek5x"]
 size = Vector2(10, 12)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qek5x"]
+bg_color = Color(0.060530342, 0.060530365, 0.060530297, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5gtgg"]
+bg_color = Color(0.34117648, 0.7647059, 0.13725491, 1)
+
 [node name="Player" type="CharacterBody2D" unique_id=1168880997]
 motion_mode = 1
 script = ExtResource("1_dovo2")
@@ -48,3 +54,24 @@ script = ExtResource("8_qek5x")
 [node name="CameraTransform" type="RemoteTransform2D" parent="." unique_id=1302995004]
 update_rotation = false
 update_scale = false
+
+[node name="PowerMeter" type="Control" parent="." unique_id=442037904]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+
+[node name="PowerBar" type="ProgressBar" parent="PowerMeter" unique_id=758287776]
+layout_mode = 0
+offset_left = -12.0
+offset_top = 12.0
+offset_right = 12.0
+offset_bottom = 16.0
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_qek5x")
+theme_override_styles/fill = SubResource("StyleBoxFlat_5gtgg")
+max_value = 1.0
+step = 0.1
+value = 0.5
+show_percentage = false
