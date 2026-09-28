@@ -7,6 +7,7 @@ class_name Player
 @onready var power_bar: ProgressBar = $PowerMeter/PowerBar
 
 @export_category("Stats")
+@export var min_shot := 50.0
 @export var full_power_shot := 500.0
 @export var gravity := 1200.0
 @export_range(0.0, 1.0, 0.01) var bounciness := 0.6
@@ -19,10 +20,14 @@ var shot_power: float = 0.0
 var _meter_time: float = 0.0
 
 var current_spell: Spell
-var can_cast := false
 
 signal turn_finished
-signal update_spell_ui
+signal cast_icon_change(can_cast: bool)
+
+var can_cast := false:
+	set(value):
+		can_cast = value
+		cast_icon_change.emit(value)
 
 const ExplosionEffect := preload("res://scenes/FX/explosion/explosion.tscn")
 
@@ -37,7 +42,7 @@ func get_launch_direction() -> Vector2:
 	return (global_position - get_global_mouse_position()).normalized()
 	
 func get_launch_speed() -> float:
-	return full_power_shot * shot_power
+	return lerpf(min_shot, full_power_shot, shot_power)
 # --------- FX --------------
 func trigger_explosion() -> void:
 	var direction := get_launch_direction()
@@ -62,16 +67,16 @@ func hide_power_meter() -> void:
 	power_meter.visible = false
 	
 # --------- SPELLS ----------
-func update_spell(spell) -> void:
-	current_spell = spell
-	can_cast = true
-	print("Player Spell: " + spell.name)
+func update_spell(spell: Spell) -> void:
+	current_spell = spell if spell else null
+	if spell:
+		can_cast = true
+		print("Player Spell: " + spell.name)
 	
 func cast_spell() -> void:
-	if can_cast:
+	if can_cast and current_spell:
 		current_spell.cast(self)
 		can_cast = false
-		update_spell_ui.emit()
 	else:
 		print("That spell is on cooldown!")
 		#TODO Play Sound

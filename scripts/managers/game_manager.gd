@@ -9,19 +9,19 @@ class_name GameManager
 
 @export var pan_time := 1.0
 
-var score = 0
-var turn = 1
+var score := 0
+var turn := 1
 var goal = null
 
 func _ready() -> void:
 	# Enemy Manager
 	enemy_manager.update_score.connect(_on_score_change)
 	enemy_manager.final_enemy.connect(_on_final_enemy)
-	enemy_manager.update_spell.connect(_on_new_spell)
+	enemy_manager.spell_acquired.connect(_on_new_spell)
 	
 	# Player
 	player.turn_finished.connect(_on_turn_finished)
-	player.update_spell_ui.connect(_on_cast_spell)
+	player.cast_icon_change.connect(_on_cast_icon_change)
 	
 	# Camera
 	follow.remote_path = follow.get_path_to(camera_2d)
@@ -31,6 +31,7 @@ func play_goal_reveal(enemy: Node2D) -> void:
 	follow.update_position = false
 	
 	await _pan_camera_to(enemy.global_position)
+	enemy.process_mode = Node.PROCESS_MODE_ALWAYS
 	await enemy.play_transformation()
 	var hole := enemy_manager.turn_into_hole(enemy)
 	hole.putt_made.connect(_on_putt_made)
@@ -50,8 +51,11 @@ func _on_new_spell(spell) -> void:
 	hud.update_spell(spell)
 	player.update_spell(spell)
 	
-func _on_cast_spell() -> void:
-	hud.fade_out_icon()
+func _on_cast_icon_change(can_cast: bool) -> void:
+	if can_cast:
+		hud.fade_in_icon()
+	else:
+		hud.fade_out_icon()
 
 func _on_score_change(points: int) -> void:
 	score += points
