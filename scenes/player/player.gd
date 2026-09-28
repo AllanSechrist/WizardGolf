@@ -84,6 +84,7 @@ func cast_spell() -> void:
 # --------- TURN -------------
 func turn_start() -> void:
 	print("Turn Start!")
+	await get_tree().create_timer(1.0).timeout # simlate animation delay
 	if current_spell:
 		can_cast = true
 

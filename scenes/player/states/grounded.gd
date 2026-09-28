@@ -4,7 +4,6 @@ func enter(previous_state_path: String, data := {}) -> void:
 	player.velocity.x = 0.0
 	player.trajectory_preview.visible = true
 	player.turn_start()
-	# TODO Animation player transition
 	
 func physics_update(_delta: float) -> void:
 	#player.velocity.y += player.gravity * _delta

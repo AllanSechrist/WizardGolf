@@ -64,7 +64,6 @@ func _on_score_change(points: int) -> void:
 func _on_turn_finished() -> void:
 	turn += 1
 	hud.update_turn(turn)
-	hud.fade_in_icon()
 	
 func _on_final_enemy(enemy: Enemy) -> void:
 	play_goal_reveal(enemy)

@@ -8,3 +8,6 @@ signal finished
 
 func cast(player: Player) -> void:
 	pass
+
+func play_effect(player: Player) -> void:
+	pass
