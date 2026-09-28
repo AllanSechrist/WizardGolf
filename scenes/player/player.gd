@@ -18,6 +18,8 @@ class_name Player
 var shot_power: float = 0.0
 var _meter_time: float = 0.0
 
+var current_spell = null
+
 signal turn_finished
 
 const ExplosionEffect := preload("res://scenes/FX/explosion/explosion.tscn")
