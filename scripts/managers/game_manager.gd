@@ -21,6 +21,7 @@ func _ready() -> void:
 	
 	# Player
 	player.turn_finished.connect(_on_turn_finished)
+	player.update_spell_ui.connect(_on_cast_spell)
 	
 	# Camera
 	follow.remote_path = follow.get_path_to(camera_2d)
@@ -48,6 +49,9 @@ func _pan_camera_to(pos: Vector2) -> void:
 func _on_new_spell(spell) -> void:
 	hud.update_spell(spell)
 	player.update_spell(spell)
+	
+func _on_cast_spell() -> void:
+	hud.fade_out_icon()
 
 func _on_score_change(points: int) -> void:
 	score += points
@@ -56,6 +60,7 @@ func _on_score_change(points: int) -> void:
 func _on_turn_finished() -> void:
 	turn += 1
 	hud.update_turn(turn)
+	hud.fade_in_icon()
 	
 func _on_final_enemy(enemy: Enemy) -> void:
 	play_goal_reveal(enemy)

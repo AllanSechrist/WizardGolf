@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://bxjnx0sp7fwn5"]
 
 [ext_resource type="Script" uid="uid://bof3o41yciros" path="res://scenes/hud/hud.gd" id="1_48c2t"]
+[ext_resource type="Texture2D" uid="uid://dcx5s2l3bwuij" path="res://assets/UI/fireball-red-2.png" id="2_c45xl"]
+[ext_resource type="Texture2D" uid="uid://bccugnwpjrqs5" path="res://assets/UI/panel-border-020.png" id="3_0bx4p"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_cgeww"]
 
@@ -13,7 +15,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 0
+mouse_filter = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
 
 [node name="TopContainer" type="HBoxContainer" parent="MarginContainer" unique_id=1368548096]
 layout_mode = 2
@@ -37,3 +42,35 @@ size_flags_horizontal = 4
 size_flags_vertical = 0
 text = "Score: 9999"
 label_settings = SubResource("LabelSettings_cgeww")
+
+[node name="SpellPanel" type="Control" parent="MarginContainer" unique_id=1678088953]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="SpellIcon" type="TextureRect" parent="MarginContainer/SpellPanel" unique_id=1563433845]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -32.0
+offset_right = 32.0
+grow_vertical = 0
+texture = ExtResource("2_c45xl")
+expand_mode = 1
+
+[node name="Frame" type="NinePatchRect" parent="MarginContainer/SpellPanel" unique_id=1681204325]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -32.0
+offset_right = 32.0
+grow_vertical = 0
+size_flags_horizontal = 0
+size_flags_vertical = 8
+texture = ExtResource("3_0bx4p")

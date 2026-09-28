@@ -22,6 +22,7 @@ var current_spell: Spell
 var can_cast := false
 
 signal turn_finished
+signal update_spell_ui
 
 const ExplosionEffect := preload("res://scenes/FX/explosion/explosion.tscn")
 
@@ -65,6 +66,15 @@ func update_spell(spell) -> void:
 	current_spell = spell
 	can_cast = true
 	print("Player Spell: " + spell.name)
+	
+func cast_spell() -> void:
+	if can_cast:
+		current_spell.cast(self)
+		can_cast = false
+		update_spell_ui.emit()
+	else:
+		print("That spell is on cooldown!")
+		#TODO Play Sound
 
 # --------- TURN -------------
 func turn_start() -> void:
