@@ -11,5 +11,5 @@ func physics_update(_delta: float) -> void:
 	player.move_and_slide()
 	
 	if Input.is_action_just_pressed("explode"):
-		finished.emit(ROLLING)
+		finished.emit(CHARGING)
 	

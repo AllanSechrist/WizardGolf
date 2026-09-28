@@ -19,7 +19,7 @@ func simulate_trajectory() -> Array[Vector2]:
 	var pos := player.global_position
 	var dir := player.get_launch_direction()
 	
-	var full_distance = (player.launch_speed ** 2) / (2.0 * max(player.friction, 0.0001))
+	var full_distance = (player.full_power_shot ** 2) / (2.0 * max(player.friction, 0.0001))
 	var preview_distance = full_distance * preview_length_ratio
 	
 	var space_state := get_world_2d().direct_space_state

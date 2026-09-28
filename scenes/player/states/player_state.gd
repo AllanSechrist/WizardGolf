@@ -4,6 +4,7 @@ class_name PlayerState
 const GROUNDED = "Grounded"
 const AIRBORNE = "Airborne"
 const ROLLING = "Rolling"
+const CHARGING = "Charging"
 
 var player: Player
 
