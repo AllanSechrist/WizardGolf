@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="StoneFoot" format=3 uid="uid://dv8mspkbkquvi"]
+
+[ext_resource type="Script" uid="uid://viq13vwe38mu" path="res://custom_resources/spells/stone_foot.gd" id="1_02xfk"]
+
+[resource]
+script = ExtResource("1_02xfk")
+name = "Stone Foot"
+metadata/_custom_type_script = "uid://viq13vwe38mu"

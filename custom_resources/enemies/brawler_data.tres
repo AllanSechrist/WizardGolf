@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="EnemyData" format=3 uid="uid://ci3v4bg2b0re6"]
+
+[ext_resource type="Script" uid="uid://d0bj3bbxan0he" path="res://custom_resources/enemies/enemy_data.gd" id="1_eqli7"]
+[ext_resource type="Resource" uid="uid://dv8mspkbkquvi" path="res://custom_resources/spells/stone_foot.tres" id="2_eqli7"]
+[ext_resource type="Texture2D" uid="uid://s8aap0lkxrn8" path="res://assets/Tiles/tile_0088.png" id="3_bk7eb"]
+
+[resource]
+script = ExtResource("1_eqli7")
+sprite = ExtResource("3_bk7eb")
+spell = ExtResource("2_eqli7")
+metadata/_custom_type_script = "uid://d0bj3bbxan0he"

@@ -14,3 +14,6 @@ func update_score(new_score) -> void:
 
 func update_turn(new_turn) -> void:
 	turn.text = "Turn: %d" % new_turn
+	
+func update_spell(spell) -> void:
+	print("HUD Spell: " + spell.name)

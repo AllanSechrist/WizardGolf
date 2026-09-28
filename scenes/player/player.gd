@@ -18,7 +18,8 @@ class_name Player
 var shot_power: float = 0.0
 var _meter_time: float = 0.0
 
-var current_spell = null
+var current_spell: Spell
+var can_cast := false
 
 signal turn_finished
 
@@ -58,10 +59,18 @@ func start_power_meter() -> void:
 
 func hide_power_meter() -> void:
 	power_meter.visible = false
+	
+# --------- SPELLS ----------
+func update_spell(spell) -> void:
+	current_spell = spell
+	can_cast = true
+	print("Player Spell: " + spell.name)
 
 # --------- TURN -------------
 func turn_start() -> void:
 	print("Turn Start!")
+	if current_spell:
+		can_cast = true
 
 func end_turn() -> void:
 	turn_finished.emit()

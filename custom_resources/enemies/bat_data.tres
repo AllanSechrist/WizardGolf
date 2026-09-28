@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="EnemyData" format=3 uid="uid://de7xajqvn7tyq"]
+
+[ext_resource type="Script" uid="uid://d0bj3bbxan0he" path="res://custom_resources/enemies/enemy_data.gd" id="1_osx25"]
+[ext_resource type="Texture2D" uid="uid://dxmk6wdjmi4j8" path="res://assets/Tiles/tile_0120.png" id="2_o7lr0"]
+
+[resource]
+script = ExtResource("1_osx25")
+sprite = ExtResource("2_o7lr0")
+metadata/_custom_type_script = "uid://d0bj3bbxan0he"

@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="FireBall" format=3 uid="uid://g00qkv5cd0dc"]
+
+[ext_resource type="Script" uid="uid://dmwv56ytwbuvg" path="res://custom_resources/spells/fireball.gd" id="1_3ay2y"]
+
+[resource]
+script = ExtResource("1_3ay2y")
+name = "Fireball"
+metadata/_custom_type_script = "uid://dmwv56ytwbuvg"

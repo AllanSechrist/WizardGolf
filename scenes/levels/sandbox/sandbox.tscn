@@ -5,8 +5,11 @@
 [ext_resource type="PackedScene" uid="uid://736ratg10yft" path="res://scenes/managers/enemy_manager.tscn" id="2_hf2it"]
 [ext_resource type="PackedScene" uid="uid://b2vt6xhyn30i3" path="res://scenes/player/player.tscn" id="2_hxtk3"]
 [ext_resource type="PackedScene" uid="uid://b03t0n4y2ayuf" path="res://scenes/Enemy/enemy_spawn_point.tscn" id="2_tsojc"]
+[ext_resource type="Resource" uid="uid://de7xajqvn7tyq" path="res://custom_resources/enemies/bat_data.tres" id="3_qblkx"]
 [ext_resource type="Resource" uid="uid://c57hba2ar8slb" path="res://custom_resources/enemies/slime_data.tres" id="4_1qtr1"]
 [ext_resource type="PackedScene" uid="uid://bxjnx0sp7fwn5" path="res://scenes/hud/hud.tscn" id="5_3p4x5"]
+[ext_resource type="Resource" uid="uid://diiekvhk606tc" path="res://custom_resources/enemies/evil_wizard_data.tres" id="5_qehtm"]
+[ext_resource type="Resource" uid="uid://ci3v4bg2b0re6" path="res://custom_resources/enemies/brawler_data.tres" id="6_7eq11"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hxtk3"]
 texture = ExtResource("1_espmd")
@@ -26,7 +29,7 @@ script = ExtResource("1_caqlm")
 
 [node name="EnemySpawnPoint" parent="EnemySpawns" unique_id=1045696050 instance=ExtResource("2_tsojc")]
 position = Vector2(248, 326)
-enemy_data = ExtResource("4_1qtr1")
+enemy_data = ExtResource("3_qblkx")
 
 [node name="EnemySpawnPoint2" parent="EnemySpawns" unique_id=4755533 instance=ExtResource("2_tsojc")]
 position = Vector2(535, 192)
@@ -34,11 +37,11 @@ enemy_data = ExtResource("4_1qtr1")
 
 [node name="EnemySpawnPoint3" parent="EnemySpawns" unique_id=595218223 instance=ExtResource("2_tsojc")]
 position = Vector2(319, 201)
-enemy_data = ExtResource("4_1qtr1")
+enemy_data = ExtResource("5_qehtm")
 
 [node name="EnemySpawnPoint4" parent="EnemySpawns" unique_id=1330630484 instance=ExtResource("2_tsojc")]
 position = Vector2(586, 264)
-enemy_data = ExtResource("4_1qtr1")
+enemy_data = ExtResource("6_7eq11")
 
 [node name="EnemyManager" parent="." unique_id=144181799 instance=ExtResource("2_hf2it")]
 

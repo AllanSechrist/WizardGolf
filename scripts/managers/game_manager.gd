@@ -17,6 +17,7 @@ func _ready() -> void:
 	# Enemy Manager
 	enemy_manager.update_score.connect(_on_score_change)
 	enemy_manager.final_enemy.connect(_on_final_enemy)
+	enemy_manager.update_spell.connect(_on_new_spell)
 	
 	# Player
 	player.turn_finished.connect(_on_turn_finished)
@@ -43,6 +44,10 @@ func _pan_camera_to(pos: Vector2) -> void:
 	tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	tween.tween_property(camera_2d, "global_position", pos, pan_time)
 	await tween.finished
+	
+func _on_new_spell(spell) -> void:
+	hud.update_spell(spell)
+	player.update_spell(spell)
 
 func _on_score_change(points: int) -> void:
 	score += points

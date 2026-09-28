@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="EnemyData" format=3 uid="uid://diiekvhk606tc"]
+
+[ext_resource type="Script" uid="uid://d0bj3bbxan0he" path="res://custom_resources/enemies/enemy_data.gd" id="1_obwfc"]
+[ext_resource type="Resource" uid="uid://g00qkv5cd0dc" path="res://custom_resources/spells/fireball.tres" id="2_obwfc"]
+[ext_resource type="Texture2D" uid="uid://bi07guh0nbbvl" path="res://assets/Tiles/tile_0111.png" id="3_gf6lg"]
+
+[resource]
+script = ExtResource("1_obwfc")
+sprite = ExtResource("3_gf6lg")
+spell = ExtResource("2_obwfc")
+metadata/_custom_type_script = "uid://d0bj3bbxan0he"

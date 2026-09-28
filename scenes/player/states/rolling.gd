@@ -29,5 +29,14 @@ func physics_update(_delta: float) -> void:
 	if player.velocity == Vector2.ZERO:
 		finished.emit(GROUNDED)
 		
+func handle_input(_event: InputEvent) -> void:
+	if _event.is_action_pressed("cast") and player.current_spell:
+		if player.can_cast:
+			player.current_spell.cast(player)
+			player.can_cast = false
+		else:
+			print("That spell is on cooldown!")
+			#TODO: Animation or sound 
+			
 func exit() -> void:
 	player.end_turn()
