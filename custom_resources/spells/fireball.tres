@@ -1,10 +1,13 @@
 [gd_resource type="Resource" script_class="FireBall" format=3 uid="uid://g00qkv5cd0dc"]
 
 [ext_resource type="Script" uid="uid://dmwv56ytwbuvg" path="res://custom_resources/spells/fireball.gd" id="1_3ay2y"]
+[ext_resource type="PackedScene" uid="uid://d4g1nk816jhsi" path="res://scenes/FX/fireball/fireball_particles.tscn" id="1_frbou"]
 [ext_resource type="Texture2D" uid="uid://dcx5s2l3bwuij" path="res://assets/UI/fireball-red-2.png" id="1_jqsvs"]
 
 [resource]
 script = ExtResource("1_3ay2y")
 name = "Fireball"
 icon = ExtResource("1_jqsvs")
+effect_scene = ExtResource("1_frbou")
+attach_to_caster = true
 metadata/_custom_type_script = "uid://dmwv56ytwbuvg"
