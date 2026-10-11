@@ -2,11 +2,14 @@ extends CharacterBody2D
 class_name Player
 
 @onready var pivot: Marker2D = $Pivot
+@onready var wand: Sprite2D = %Wand
+@onready var character: Sprite2D = $Character
 @onready var trajectory_preview: TrajectoryPreview = $TrajectoryPreview
 @onready var power_meter: Control = $PowerMeter
 @onready var power_bar: ProgressBar = $PowerMeter/PowerBar
 
 @export_category("Stats")
+@export var data: CharacterData
 @export var min_shot := 50.0
 @export var full_power_shot := 500.0
 @export var gravity := 1200.0
@@ -19,7 +22,7 @@ class_name Player
 var shot_power: float = 0.0
 var _meter_time: float = 0.0
 
-var current_spell: Spell
+var spell: Spell
 
 signal turn_finished
 signal cast_icon_change(can_cast: bool)
@@ -33,6 +36,9 @@ const ExplosionEffect := preload("res://scenes/FX/explosion/explosion.tscn")
 
 func _ready() -> void:
 	power_meter.visible = false
+	character.texture = data.icon
+	wand.texture = data.weapon
+	spell = data.spell
 	
 func _physics_process(_delta: float) -> void:
 	var mouse_pos := get_global_mouse_position()
@@ -67,15 +73,15 @@ func hide_power_meter() -> void:
 	power_meter.visible = false
 	
 # --------- SPELLS ----------
-func update_spell(spell: Spell) -> void:
-	current_spell = spell if spell else null
-	if spell:
-		can_cast = true
-		print("Player Spell: " + spell.name)
+#func update_spell(spell: Spell) -> void:
+	#spell = spell if spell else null
+	#if spell:
+		#can_cast = true
+		#print("Player Spell: " + spell.name)
 	
 func cast_spell() -> void:
-	if can_cast and current_spell:
-		current_spell.cast(self)
+	if can_cast and spell:
+		spell.cast(self)
 		can_cast = false
 	else:
 		print("That spell is on cooldown!")
@@ -85,7 +91,7 @@ func cast_spell() -> void:
 func turn_start() -> void:
 	print("Turn Start!")
 	await get_tree().create_timer(1.0).timeout # simlate animation delay
-	if current_spell:
+	if spell:
 		can_cast = true
 
 func end_turn() -> void:

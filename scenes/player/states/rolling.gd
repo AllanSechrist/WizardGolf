@@ -30,7 +30,7 @@ func physics_update(_delta: float) -> void:
 		finished.emit(GROUNDED)
 		
 func handle_input(_event: InputEvent) -> void:
-	if _event.is_action_pressed("cast") and player.current_spell:
+	if _event.is_action_pressed("cast") and player.spell:
 		player.cast_spell()
 			
 func exit() -> void:

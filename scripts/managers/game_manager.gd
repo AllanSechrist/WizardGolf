@@ -17,7 +17,7 @@ func _ready() -> void:
 	# Enemy Manager
 	enemy_manager.update_score.connect(_on_score_change)
 	enemy_manager.final_enemy.connect(_on_final_enemy)
-	enemy_manager.spell_acquired.connect(_on_new_spell)
+	#enemy_manager.spell_acquired.connect(_on_new_spell)
 	
 	# Player
 	player.turn_finished.connect(_on_turn_finished)
@@ -25,6 +25,7 @@ func _ready() -> void:
 	
 	# Camera
 	follow.remote_path = follow.get_path_to(camera_2d)
+	hud.update_spell(player.spell)
 	
 func play_goal_reveal(enemy: Node2D) -> void:
 	get_tree().paused = true
@@ -47,9 +48,9 @@ func _pan_camera_to(pos: Vector2) -> void:
 	tween.tween_property(camera_2d, "global_position", pos, pan_time)
 	await tween.finished
 	
-func _on_new_spell(spell) -> void:
-	hud.update_spell(spell)
-	player.update_spell(spell)
+#func _on_new_spell(spell) -> void:
+	#hud.update_spell(spell)
+	#player.update_spell(spell)
 	
 func _on_cast_icon_change(can_cast: bool) -> void:
 	if can_cast:

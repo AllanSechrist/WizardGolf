@@ -7,7 +7,7 @@ var enemy_scene := preload("res://scenes/Enemy/enemy.tscn")
 var hole_scene := preload("res://scenes/hole/hole.tscn")
 
 signal update_score(int)
-signal spell_acquired(enemy: Enemy)
+#signal spell_acquired(enemy: Enemy)
 signal final_enemy(enemy: Enemy)
 
 var enemies: Array
@@ -24,8 +24,8 @@ func _ready() -> void:
 
 func _on_defeat(enemy: Enemy) -> void:
 	update_score.emit(1)
-	if enemy.spell:
-		spell_acquired.emit(enemy.spell)
+	#if enemy.spell:
+		#spell_acquired.emit(enemy.spell)
 	enemies.erase(enemy) # remove from Array
 	enemy.die()
 	if enemies.size() == 1:
