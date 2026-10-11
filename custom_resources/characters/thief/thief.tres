@@ -1,11 +1,13 @@
 [gd_resource type="Resource" script_class="CharacterData" format=3 uid="uid://bqahi4l3tjik5"]
 
 [ext_resource type="Script" uid="uid://bup0vtcpva3c5" path="res://custom_resources/characters/character_data.gd" id="1_afn28"]
-[ext_resource type="Texture2D" uid="uid://47bwvi081tl8" path="res://assets/Tiles/tile_0098.png" id="2_uxlwy"]
+[ext_resource type="Texture2D" uid="uid://cmxx4du4aac0c" path="res://assets/Tiles/tile_0097.png" id="1_uxlwy"]
+[ext_resource type="Resource" uid="uid://b2rld15yj4rcn" path="res://custom_resources/spells/shadow_step/shadow_step.tres" id="3_0maet"]
 [ext_resource type="Texture2D" uid="uid://c8sh7hiri8o60" path="res://assets/Tiles/tile_0104.png" id="3_cf1gg"]
 
 [resource]
 script = ExtResource("1_afn28")
-sprite = ExtResource("2_uxlwy")
+icon = ExtResource("1_uxlwy")
 weapon = ExtResource("3_cf1gg")
+spell = ExtResource("3_0maet")
 metadata/_custom_type_script = "uid://bup0vtcpva3c5"

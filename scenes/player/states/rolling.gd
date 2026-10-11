@@ -26,12 +26,16 @@ func physics_update(_delta: float) -> void:
 	if collision:
 		player.velocity = player.velocity.bounce(collision.get_normal()) * player.bounciness
 		
+	if Effects.is_time_slow:
+		finished.emit(CASTING)
+		
 	if player.velocity == Vector2.ZERO:
 		finished.emit(GROUNDED)
 		
 func handle_input(_event: InputEvent) -> void:
 	if _event.is_action_pressed("cast") and player.spell:
 		player.cast_spell()
-			
+		
 func exit() -> void:
-	player.end_turn()
+	if !Effects.is_time_slow:
+		player.end_turn()

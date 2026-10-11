@@ -5,6 +5,7 @@ const GROUNDED = "Grounded"
 const AIRBORNE = "Airborne"
 const ROLLING = "Rolling"
 const CHARGING = "Charging"
+const CASTING = "Casting"
 
 var player: Player
 

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ShadowStep" format=3 uid="uid://b2rld15yj4rcn"]
+
+[ext_resource type="Texture2D" uid="uid://dhv1rq6amthih" path="res://assets/UI/beam-blue-1.png" id="1_2px7s"]
+[ext_resource type="Script" uid="uid://dwhgmxs8qaq8g" path="res://custom_resources/spells/shadow_step/shadow_step.gd" id="1_xot22"]
+
+[resource]
+script = ExtResource("1_xot22")
+name = "Shadow Step"
+icon = ExtResource("1_2px7s")
+metadata/_custom_type_script = "uid://dwhgmxs8qaq8g"

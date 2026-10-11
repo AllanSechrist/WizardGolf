@@ -11,6 +11,9 @@ signal finished
 func cast(player: Player) -> void:
 	pass
 
+func spell_action(player: Player) -> void:
+	pass
+
 func play_effect(player: Player) -> void:
 	if effect_scene:
 		print("spell!")
