@@ -22,6 +22,7 @@ func physics_update(_delta: float) -> void:
 	
 func handle_input(event: InputEvent) -> void:
 	if event.is_action_pressed("explode"):
+		print("launch from", name)
 		player.spell.spell_action(player)
 		Effects.end_time_slow()
 		player.trajectory_preview.visible = false

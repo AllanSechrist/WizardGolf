@@ -8,6 +8,7 @@ func physics_update(delta: float) -> void:
 	
 func handle_input(event: InputEvent) -> void:
 	if event.is_action_pressed("explode"):
+		player.trigger_explosion()
 		finished.emit(ROLLING)
 
 func exit() -> void:

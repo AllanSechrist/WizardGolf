@@ -1,7 +1,6 @@
 extends PlayerState
 
 func enter(previous_state_path: String, data := {}) -> void:
-	player.trigger_explosion()
 	player.trajectory_preview.visible = false
 	#TODO Animation player update
 	
