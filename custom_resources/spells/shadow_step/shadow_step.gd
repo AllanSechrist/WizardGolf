@@ -6,6 +6,8 @@ class_name ShadowStep
 @export var time_recovery = 0.1
 @export_range(0.0, 1.0) var redirect_speed_keep := 0.9
 
+
+
 func cast(character: PlayerCharacter) -> void:
 	super(character)
 	player.trajectory_preview.visible = true

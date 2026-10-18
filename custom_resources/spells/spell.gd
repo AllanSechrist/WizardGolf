@@ -5,10 +5,12 @@ class_name Spell
 @export var icon: Texture2D
 @export var effect_scene: PackedScene
 @export var attach_to_caster: bool = false
+@export var need_aim: bool = false
 
 signal finished
 
 var player: PlayerCharacter
+
 
 func cast(character: PlayerCharacter) -> void:
 	player = character

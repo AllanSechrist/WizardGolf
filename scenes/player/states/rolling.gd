@@ -9,6 +9,7 @@ signal stopped
 func enter() -> void:
 	player = actor as PlayerCharacter
 	player.trajectory_preview.visible = false
+	player.wand.visible = false
 	#TODO Animation player update
 	
 #func physics_update(_delta: float) -> void:
@@ -33,9 +34,6 @@ func physics_update(_delta: float) -> void:
 	
 	if collision:
 		player.velocity = player.velocity.bounce(collision.get_normal()) * player.bounciness
-		
-	#if Effects.is_time_slow:
-		#finished.emit(CASTING)
 		
 	if player.velocity == Vector2.ZERO:
 		stopped.emit()

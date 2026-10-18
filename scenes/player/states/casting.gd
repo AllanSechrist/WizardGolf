@@ -9,9 +9,13 @@ signal cast_pressed
 func enter() -> void:
 	#player.spell.play_effect()
 	player = actor as PlayerCharacter
+	if player.spell.need_aim:
+		player.wand.visible = true
 	
 func physics_update(_delta: float) -> void:
 	player.velocity = player.velocity.move_toward(Vector2.ZERO, player.friction * _delta)
+	
+	player.aim()
 	
 	var motion = player.velocity * _delta
 	var collision = player.move_and_collide(motion)
@@ -33,5 +37,5 @@ func unhandled_event(event: InputEvent) -> void:
 		Effects.end_time_slow()
 		
 
-func exit() -> void:
-	player.hide_power_meter()
+#func exit() -> void:
+	#player.hide_power_meter()

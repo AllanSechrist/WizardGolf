@@ -47,6 +47,7 @@ func _ready() -> void:
 	can_act = true
 	_grounded()
 	fsm.state_changed.connect(_on_state_changed)
+	fsm_debug_label.text = fsm.current_state.get_script().get_global_name()
 # -------------- STATE --------------
 func _on_state_changed() -> void:
 	fsm_debug_label.text = fsm.current_state.get_script().get_global_name()
@@ -69,11 +70,10 @@ func _casting() -> void:
 	casting_state.cast_pressed.connect(_rolling, CONNECT_ONE_SHOT)
 	casting_state.stopped.connect(_grounded, CONNECT_ONE_SHOT)
 # --------------------------------------
-
-func _physics_process(_delta: float) -> void:
+func aim() -> void:
 	var mouse_pos := get_global_mouse_position()
 	pivot.look_at(mouse_pos)
-	
+
 func get_launch_direction() -> Vector2:
 	return (global_position - get_global_mouse_position()).normalized()
 	
