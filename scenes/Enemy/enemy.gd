@@ -13,7 +13,7 @@ func _ready() -> void:
 		sprite_2d.texture = data.sprite
 		spell = data.spell
 func _on_body_entered(body: Node2D) -> void:
-	if body is Player:
+	if body is PlayerCharacter:
 		defeat.emit(self)
 
 func die() -> void:

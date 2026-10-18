@@ -1,5 +1,5 @@
 extends CharacterBody2D
-class_name Player
+class_name PlayerCharacter
 
 @onready var pivot: Marker2D = $Pivot
 @onready var wand: Sprite2D = %Wand
@@ -14,13 +14,15 @@ class_name Player
 @export var full_power_shot := 500.0
 @export var gravity := 1200.0
 @export_range(0.0, 1.0, 0.01) var bounciness := 0.6
-@export var friction := 1.0
+@export var friction := 1.8
 
 @export_category("Meter")
 @export var meter_speed: float = 1.1
 
 var shot_power: float = 0.0
 var _meter_time: float = 0.0
+
+var can_act := true
 
 var spell: Spell
 
@@ -39,6 +41,7 @@ func _ready() -> void:
 	character.texture = data.icon
 	wand.texture = data.weapon
 	spell = data.spell
+	can_act = true
 	
 func _physics_process(_delta: float) -> void:
 	var mouse_pos := get_global_mouse_position()
@@ -90,9 +93,11 @@ func cast_spell() -> void:
 # --------- TURN -------------
 func turn_start() -> void:
 	print("Turn Start!")
-	await get_tree().create_timer(1.0).timeout # simlate animation delay
+	can_act = true
+	await get_tree().create_timer(1.0).timeout # simulate animation delay
 	if spell:
 		can_cast = true
 
 func end_turn() -> void:
+	can_act = false
 	turn_finished.emit()

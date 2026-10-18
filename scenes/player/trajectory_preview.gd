@@ -1,7 +1,7 @@
 extends Node2D
 class_name TrajectoryPreview
 
-@export var player: Player
+@export var player: PlayerCharacter
 @export_range(0.0, 1.0, 0.01) var preview_length_ratio := 0.25
 @export var dot_spacing := 12.0
 @export var dot_radius := 2.0

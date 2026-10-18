@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CharacterData" format=3 uid="uid://cc5ajsgyd1c3w"]
+
+[ext_resource type="Texture2D" uid="uid://cgdd06webdmyi" path="res://assets/Tiles/tile_0100.png" id="1_0071r"]
+[ext_resource type="Script" uid="uid://bup0vtcpva3c5" path="res://custom_resources/characters/character_data.gd" id="1_gf2e5"]
+[ext_resource type="Resource" uid="uid://dv8mspkbkquvi" path="res://custom_resources/spells/stone_foot/stone_foot.tres" id="3_ewswp"]
+[ext_resource type="Texture2D" uid="uid://d17qgnufq5u8i" path="res://assets/Tiles/tile_0117.png" id="4_6o84s"]
+
+[resource]
+script = ExtResource("1_gf2e5")
+icon = ExtResource("1_0071r")
+weapon = ExtResource("4_6o84s")
+spell = ExtResource("3_ewswp")
+metadata/_custom_type_script = "uid://bup0vtcpva3c5"

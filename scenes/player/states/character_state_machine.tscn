@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://6dsgh6x26ncx"]
+
+[ext_resource type="Script" uid="uid://tpnnv4k5juvm" path="res://scripts/state/state_machine.gd" id="1_j1l5n"]
+[ext_resource type="Script" uid="uid://qyxm4fpmv38p" path="res://scenes/player/states/grounded.gd" id="2_cxo5m"]
+[ext_resource type="Script" uid="uid://dmjio1fklyf3o" path="res://scenes/player/states/airborne.gd" id="3_12cwx"]
+[ext_resource type="Script" uid="uid://cvgjhnxfqlo23" path="res://scenes/player/states/rolling.gd" id="4_567mv"]
+[ext_resource type="Script" uid="uid://dxr7t5rs8oob" path="res://scenes/player/states/charging.gd" id="5_hlykq"]
+[ext_resource type="Script" uid="uid://vg8mojip6yrg" path="res://scenes/player/states/casting.gd" id="6_ca657"]
+
+[node name="StateMachine" type="Node" unique_id=1913461995]
+script = ExtResource("1_j1l5n")
+
+[node name="Grounded" type="Node" parent="." unique_id=1009757314]
+script = ExtResource("2_cxo5m")
+
+[node name="Airborne" type="Node" parent="." unique_id=1884727579]
+script = ExtResource("3_12cwx")
+
+[node name="Rolling" type="Node" parent="." unique_id=1008039248]
+script = ExtResource("4_567mv")
+
+[node name="Charging" type="Node" parent="." unique_id=89638275]
+script = ExtResource("5_hlykq")
+
+[node name="Casting" type="Node" parent="." unique_id=85214188]
+script = ExtResource("6_ca657")

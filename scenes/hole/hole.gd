@@ -7,7 +7,7 @@ signal putt_made
 @export var capture_radius := 8.0
 @export var drag := 400.0
 
-var player: Player = null
+var player: PlayerCharacter = null
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
@@ -15,7 +15,7 @@ func _ready() -> void:
 	# Animation stuff?
 	
 func _on_body_entered(body: Node2D) -> void:
-	if body is Player:
+	if body is PlayerCharacter:
 		player = body
 		
 func _on_body_exited(body: Node2D) -> void:

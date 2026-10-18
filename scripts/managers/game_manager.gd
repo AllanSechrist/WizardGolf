@@ -1,7 +1,7 @@
 extends Node2D
 class_name GameManager
 
-@onready var player: Player = $Player
+@onready var player: PlayerCharacter = $Player
 @onready var enemy_manager: EnemyManager = $EnemyManager
 @onready var hud: HUD = $HUD
 @onready var camera_2d: Camera2D = $Camera2D
