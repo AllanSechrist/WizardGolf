@@ -1,6 +1,13 @@
-extends PlayerState
+extends State
+class_name PlayerRollingState
 
-func enter(previous_state_path: String, data := {}) -> void:
+var player: PlayerCharacter
+
+signal cast_pressed
+signal stopped
+
+func enter() -> void:
+	player = actor as PlayerCharacter
 	player.trajectory_preview.visible = false
 	#TODO Animation player update
 	
@@ -17,6 +24,8 @@ func enter(previous_state_path: String, data := {}) -> void:
 		#finished.emit(GROUNDED)
 
 func physics_update(_delta: float) -> void:
+	if not player:
+		return
 	player.velocity = player.velocity.move_toward(Vector2.ZERO, player.friction * _delta)
 	
 	var motion = player.velocity * _delta
@@ -25,14 +34,15 @@ func physics_update(_delta: float) -> void:
 	if collision:
 		player.velocity = player.velocity.bounce(collision.get_normal()) * player.bounciness
 		
-	if Effects.is_time_slow:
-		finished.emit(CASTING)
+	#if Effects.is_time_slow:
+		#finished.emit(CASTING)
 		
 	if player.velocity == Vector2.ZERO:
-		finished.emit(GROUNDED)
+		stopped.emit()
 		
-func handle_input(_event: InputEvent) -> void:
+func unhandled_event(_event: InputEvent) -> void:
 	if _event.is_action_pressed("cast") and player.spell:
+		cast_pressed.emit()
 		player.cast_spell()
 		
 func exit() -> void:

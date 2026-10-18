@@ -1,7 +1,14 @@
-extends PlayerState
+extends State
+class_name PlayerCastingState
 
-func enter(previous_state_path: String, data := {}) -> void:
-	player.trajectory_preview.visible = true
+var player: PlayerCharacter
+
+signal stopped
+signal cast_pressed
+
+func enter() -> void:
+	#player.spell.play_effect()
+	player = actor as PlayerCharacter
 	
 func physics_update(_delta: float) -> void:
 	player.velocity = player.velocity.move_toward(Vector2.ZERO, player.friction * _delta)
@@ -13,19 +20,18 @@ func physics_update(_delta: float) -> void:
 		player.velocity = player.velocity.bounce(collision.get_normal()) * player.bounciness
 		
 	if player.velocity == Vector2.ZERO:
-		finished.emit(GROUNDED)
+		stopped.emit()
 		return
 		
 	if !Effects.is_time_slow:
-		finished.emit(ROLLING)
+		cast_pressed.emit()
 		return
 	
-func handle_input(event: InputEvent) -> void:
-	if event.is_action_pressed("explode"):
-		print("launch from", name)
-		player.spell.spell_action(player)
+func unhandled_event(event: InputEvent) -> void:
+	if event.is_action_pressed("shoot") and Effects.is_time_slow:
+		player.spell.spell_action()
 		Effects.end_time_slow()
-		player.trajectory_preview.visible = false
+		
 
 func exit() -> void:
 	player.hide_power_meter()

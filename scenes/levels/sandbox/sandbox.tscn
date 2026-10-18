@@ -57,3 +57,5 @@ bounciness = 0.75
 friction = 30.0
 
 [node name="HUD" parent="." unique_id=1723985637 instance=ExtResource("5_3p4x5")]
+
+[editable path="Player"]

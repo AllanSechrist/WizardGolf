@@ -8,13 +8,15 @@ class_name Spell
 
 signal finished
 
-func cast(player: PlayerCharacter) -> void:
+var player: PlayerCharacter
+
+func cast(character: PlayerCharacter) -> void:
+	player = character
+
+func spell_action() -> void:
 	pass
 
-func spell_action(player: PlayerCharacter) -> void:
-	pass
-
-func play_effect(player: PlayerCharacter) -> void:
+func play_effect() -> void:
 	if effect_scene:
 		print("spell!")
 		var parent: Node = player if attach_to_caster else null

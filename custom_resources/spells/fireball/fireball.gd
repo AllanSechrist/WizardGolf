@@ -1,9 +1,10 @@
 extends Spell
 class_name FireBall
 
-func cast(player: PlayerCharacter) -> void:
+func cast(character: PlayerCharacter) -> void:
+	super(character)
 	if player.velocity.is_zero_approx():
 		return # no motion
 	player.velocity = player.velocity.normalized() * player.full_power_shot
-	play_effect(player)
+	play_effect()
 	finished.emit()

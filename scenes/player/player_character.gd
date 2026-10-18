@@ -7,6 +7,9 @@ class_name PlayerCharacter
 @onready var trajectory_preview: TrajectoryPreview = $TrajectoryPreview
 @onready var power_meter: Control = $PowerMeter
 @onready var power_bar: ProgressBar = $PowerMeter/PowerBar
+@onready var fsm: FiniteStateMachine = $FiniteStateMachine
+@onready var fsm_debug_label: Label = $FSMDebugLabel
+
 
 @export_category("Stats")
 @export var data: CharacterData
@@ -42,7 +45,31 @@ func _ready() -> void:
 	wand.texture = data.weapon
 	spell = data.spell
 	can_act = true
+	_grounded()
+	fsm.state_changed.connect(_on_state_changed)
+# -------------- STATE --------------
+func _on_state_changed() -> void:
+	fsm_debug_label.text = fsm.current_state.get_script().get_global_name()
 	
+func _grounded() -> void:
+	var grounded_state := fsm.change_state(PlayerGroundedState) as PlayerGroundedState
+	grounded_state.shoot_pressed.connect(_charging, CONNECT_ONE_SHOT)
+	
+func _charging() -> void:
+	var charging_state := fsm.change_state(PlayerChargingState) as PlayerChargingState
+	charging_state.shoot_pressed.connect(_rolling, CONNECT_ONE_SHOT)
+	
+func _rolling() -> void:
+	var rolling_state := fsm.change_state(PlayerRollingState) as PlayerRollingState
+	rolling_state.cast_pressed.connect(_casting, CONNECT_ONE_SHOT)
+	rolling_state.stopped.connect(_grounded, CONNECT_ONE_SHOT)
+	
+func _casting() -> void:
+	var casting_state := fsm.change_state(PlayerCastingState) as PlayerCastingState
+	casting_state.cast_pressed.connect(_rolling, CONNECT_ONE_SHOT)
+	casting_state.stopped.connect(_grounded, CONNECT_ONE_SHOT)
+# --------------------------------------
+
 func _physics_process(_delta: float) -> void:
 	var mouse_pos := get_global_mouse_position()
 	pivot.look_at(mouse_pos)
@@ -60,6 +87,7 @@ func trigger_explosion() -> void:
 	var fx := ExplosionEffect.instantiate()
 	fx.global_position = global_position
 	get_tree().current_scene.add_child(fx)
+	
 # --------- METER ---------
 func update_power_meter(delta: float) -> void:
 	_meter_time += delta
