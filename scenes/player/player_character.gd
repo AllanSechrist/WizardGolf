@@ -10,22 +10,21 @@ class_name PlayerCharacter
 @onready var fsm: FiniteStateMachine = $FiniteStateMachine
 @onready var fsm_debug_label: Label = $FSMDebugLabel
 
-
-@export_category("Stats")
+@export_category("Data")
 @export var data: CharacterData
-@export var min_shot := 50.0
-@export var full_power_shot := 500.0
-@export var gravity := 1200.0
-@export_range(0.0, 1.0, 0.01) var bounciness := 0.6
-@export var friction := 1.8
 
-@export_category("Meter")
-@export var meter_speed: float = 1.1
+var min_shot: float
+var full_power_shot: float
+var gravity: float
+var bounciness: float
+var friction: float
+var meter_speed: float
 
 var shot_power: float = 0.0
 var _meter_time: float = 0.0
 
 var can_act := true
+var is_selected := false
 
 var spell: Spell
 
@@ -40,14 +39,23 @@ var can_cast := false:
 const ExplosionEffect := preload("res://scenes/FX/explosion/explosion.tscn")
 
 func _ready() -> void:
+	_apply_data()
 	power_meter.visible = false
-	character.texture = data.icon
-	wand.texture = data.weapon
-	spell = data.spell
 	can_act = true
 	_grounded()
 	fsm.state_changed.connect(_on_state_changed)
 	fsm_debug_label.text = fsm.current_state.get_script().get_global_name()
+	
+func _apply_data() -> void:
+	character.texture = data.icon
+	wand.texture = data.weapon
+	spell = data.spell
+	min_shot = data.min_shot
+	full_power_shot = data.full_power_shot
+	gravity = data.gravity
+	bounciness = data.bounciness
+	friction = data.friction
+	meter_speed = data.meter_speed
 # -------------- STATE --------------
 func _on_state_changed() -> void:
 	fsm_debug_label.text = fsm.current_state.get_script().get_global_name()
