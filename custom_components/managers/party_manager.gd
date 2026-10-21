@@ -23,7 +23,7 @@ func start_party_turn() -> void:
 	
 func can_switch() -> bool:
 	# only switch while current character is idle
-	return selected == null or selected.fsm.current_state is PlayerGroundedState
+	return selected == null or selected.fsm.current_state is not PlayerChargingState
 	
 func select(character: PlayerCharacter) -> void:
 	if not can_switch() or character in _acted:
@@ -41,3 +41,16 @@ func select_next() -> void:
 		if character not in _acted:
 			select(character)
 			return
+			
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("cycle_character"):
+		select_next()
+		get_viewport().set_input_as_handled()
+	
+func _on_character_turn_finished(character: PlayerCharacter) -> void:
+	_acted.append(character)
+	if _acted.size() == party.size():
+		party_turn_finished.emit()
+	elif character == selected:
+		select_next()
+	

@@ -7,7 +7,7 @@
 
 [resource]
 script = ExtResource("1_4ovfi")
-sprite = ExtResource("2_km2cy")
+icon = ExtResource("2_km2cy")
 weapon = ExtResource("4_tdatb")
 spell = ExtResource("2_6th50")
 metadata/_custom_type_script = "uid://bup0vtcpva3c5"

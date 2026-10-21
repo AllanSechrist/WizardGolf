@@ -27,6 +27,8 @@ motion_mode = 1
 script = ExtResource("1_dovo2")
 data = ExtResource("2_ocp37")
 
+[node name="SelectionReticle" type="Sprite2D" parent="." unique_id=322972570]
+
 [node name="FiniteStateMachine" type="Node" parent="." unique_id=290276585]
 script = ExtResource("3_ocp37")
 

@@ -9,9 +9,13 @@ class_name PlayerCharacter
 @onready var power_bar: ProgressBar = $PowerMeter/PowerBar
 @onready var fsm: FiniteStateMachine = $FiniteStateMachine
 @onready var fsm_debug_label: Label = $FSMDebugLabel
+@onready var selection_reticle: Sprite2D = $SelectionReticle
 
 @export_category("Data")
 @export var data: CharacterData
+
+signal turn_finished
+signal cast_icon_change(can_cast: bool)
 
 var min_shot: float
 var full_power_shot: float
@@ -24,12 +28,13 @@ var shot_power: float = 0.0
 var _meter_time: float = 0.0
 
 var can_act := true
-var is_selected := false
-
 var spell: Spell
 
-signal turn_finished
-signal cast_icon_change(can_cast: bool)
+var is_selected: bool = false:
+	set(value):
+		is_selected = value
+		if selection_reticle:
+			selection_reticle.visible = value
 
 var can_cast := false:
 	set(value):
@@ -41,6 +46,7 @@ const ExplosionEffect := preload("res://scenes/FX/explosion/explosion.tscn")
 func _ready() -> void:
 	_apply_data()
 	power_meter.visible = false
+	selection_reticle.visible = is_selected
 	can_act = true
 	_grounded()
 	fsm.state_changed.connect(_on_state_changed)
@@ -110,6 +116,13 @@ func start_power_meter() -> void:
 
 func hide_power_meter() -> void:
 	power_meter.visible = false
+	
+# ----------- RETICLE ---------
+func toggle_reticle_on() -> void:
+	selection_reticle.visible = true
+	
+func toggle_reticle_off() -> void:
+	selection_reticle.visible = false
 	
 # --------- SPELLS ----------
 #func update_spell(spell: Spell) -> void:
