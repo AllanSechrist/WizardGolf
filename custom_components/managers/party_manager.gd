@@ -14,6 +14,7 @@ func _ready() -> void:
 			party.append(child)
 			child.turn_finished.connect(_on_character_turn_finished.bind(child))
 	start_party_turn()
+	print(party)
 	
 func start_party_turn() -> void:
 	_acted.clear()

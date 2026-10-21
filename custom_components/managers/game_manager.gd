@@ -1,17 +1,19 @@
 extends Node2D
 class_name GameManager
 
-@onready var player: PlayerCharacter = $Player
 @onready var enemy_manager: EnemyManager = $EnemyManager
+@onready var party_manager: PartyManager = $PartyManager
 @onready var hud: HUD = $HUD
 @onready var camera_2d: Camera2D = $Camera2D
-@onready var follow: RemoteTransform2D = player.get_node("CameraTransform")
 
 @export var pan_time := 1.0
+@export var switch_pan_time := 0.4
 
 var score := 0
 var turn := 1
-var goal = null
+
+var _follow: RemoteTransform2D
+var _pan_tween: Tween
 
 func _ready() -> void:
 	# Enemy Manager
@@ -19,34 +21,62 @@ func _ready() -> void:
 	enemy_manager.final_enemy.connect(_on_final_enemy)
 	#enemy_manager.spell_acquired.connect(_on_new_spell)
 	
-	# Player
-	player.turn_finished.connect(_on_turn_finished)
-	player.cast_icon_change.connect(_on_cast_icon_change)
+	# Party
+	party_manager.party_turn_finished.connect(_on_turn_finished)
 	
 	# Camera
-	follow.remote_path = follow.get_path_to(camera_2d)
-	hud.update_spell(player.spell)
+	party_manager.selection_changed.connect(_on_selection_changed)
+	if party_manager.selected:
+		_attach_camera(party_manager.selected)
+		_update_hud_for(party_manager.selected)
+	hud.visible = true
 	
-func play_goal_reveal(enemy: Node2D) -> void:
+# -------------- CAMERA ----------------
+func _on_selection_changed(character: PlayerCharacter) -> void:
+	_update_hud_for(character)
+	_detach_camera()
+	var target: RemoteTransform2D = character.get_node("CameraTransform")
+	await _pan_camera_to(target.global_position, switch_pan_time)
+	if character == party_manager.selected:
+		_attach_camera(character)
+		
+func _attach_camera(character: PlayerCharacter) -> void:
+	_follow = character.get_node("CameraTransform")
+	_follow.remote_path = _follow.get_path_to(camera_2d)
+	
+func _detach_camera() -> void:
+	if _follow:
+		_follow.remote_path = NodePath()
+	_follow = null
+
+func _pan_camera_to(pos: Vector2, duration: float = pan_time) -> void:
+	if _pan_tween and _pan_tween.is_valid():
+		_pan_tween.kill()
+	_pan_tween = create_tween()
+	_pan_tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	_pan_tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	_pan_tween.tween_property(camera_2d, "global_position", pos, duration)
+	await _pan_tween.finished
+	
+func play_goal_reveal(enemy: Enemy) -> void:
 	get_tree().paused = true
-	follow.update_position = false
+	_detach_camera()
 	
-	await _pan_camera_to(enemy.global_position)
+	await _pan_camera_to(enemy.global_position, pan_time)
 	enemy.process_mode = Node.PROCESS_MODE_ALWAYS
 	await enemy.play_transformation()
+	enemy.process_mode = Node.PROCESS_MODE_INHERIT
 	var hole := enemy_manager.turn_into_hole(enemy)
 	hole.putt_made.connect(_on_putt_made)
-	await _pan_camera_to(player.global_position)
 	
-	follow.update_position = true
+	var current := party_manager.selected
+	await _pan_camera_to(current.get_node("CameraTransform").global_position, pan_time)
+	_attach_camera(current)
 	get_tree().paused = false
-	
-func _pan_camera_to(pos: Vector2) -> void:
-	var tween := create_tween()
-	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
-	tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-	tween.tween_property(camera_2d, "global_position", pos, pan_time)
-	await tween.finished
+# -------------------------------------------
+func _update_hud_for(character: PlayerCharacter) -> void:
+	hud.update_spell(character.spell)
+	_on_cast_icon_change(character.can_cast)
 	
 #func _on_new_spell(spell) -> void:
 	#hud.update_spell(spell)
