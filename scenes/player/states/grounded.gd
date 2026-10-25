@@ -8,7 +8,7 @@ signal shoot_pressed
 func enter() -> void:
 	player = actor as PlayerCharacter
 	player.velocity.x = 0.0
-	player.trajectory_preview.visible = true
+	#player.trajectory_preview.visible = true
 	player.wand.visible = true
 	player.turn_start()
 	
@@ -24,7 +24,7 @@ func physics_update(_delta: float) -> void:
 		#pass
 		
 func unhandled_event(event: InputEvent) -> void:
-	if not player.is_selected or not player.can_act:
+	if not player.can_act:
 		return
 	if event.is_action_pressed("shoot"):
 		shoot_pressed.emit()

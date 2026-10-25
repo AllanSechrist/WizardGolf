@@ -43,6 +43,6 @@ func unhandled_event(_event: InputEvent) -> void:
 		cast_pressed.emit()
 		player.cast_spell()
 		
-func exit() -> void:
-	if !Effects.is_time_slow:
-		player.end_turn()
+#func exit() -> void:
+	#if !Effects.is_time_slow:
+		#player.end_turn()

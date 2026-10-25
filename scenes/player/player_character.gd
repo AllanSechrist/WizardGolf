@@ -35,6 +35,7 @@ var is_selected: bool = false:
 		is_selected = value
 		if selection_reticle:
 			selection_reticle.visible = value
+		_refresh_preview()
 
 var can_cast := false:
 	set(value):
@@ -45,10 +46,11 @@ const ExplosionEffect := preload("res://scenes/FX/explosion/explosion.tscn")
 
 func _ready() -> void:
 	_apply_data()
+	_refresh_preview()
 	power_meter.visible = false
 	selection_reticle.visible = is_selected
 	can_act = true
-	_grounded()
+	_unselected()
 	fsm.state_changed.connect(_on_state_changed)
 	fsm_debug_label.text = fsm.current_state.get_script().get_global_name()
 	
@@ -65,6 +67,7 @@ func _apply_data() -> void:
 # -------------- STATE --------------
 func _on_state_changed() -> void:
 	fsm_debug_label.text = fsm.current_state.get_script().get_global_name()
+	_refresh_preview()
 	
 func _grounded() -> void:
 	var grounded_state := fsm.change_state(PlayerGroundedState) as PlayerGroundedState
@@ -77,12 +80,17 @@ func _charging() -> void:
 func _rolling() -> void:
 	var rolling_state := fsm.change_state(PlayerRollingState) as PlayerRollingState
 	rolling_state.cast_pressed.connect(_casting, CONNECT_ONE_SHOT)
-	rolling_state.stopped.connect(_grounded, CONNECT_ONE_SHOT)
+	rolling_state.stopped.connect(_on_shot_finished, CONNECT_ONE_SHOT)
 	
 func _casting() -> void:
 	var casting_state := fsm.change_state(PlayerCastingState) as PlayerCastingState
 	casting_state.cast_pressed.connect(_rolling, CONNECT_ONE_SHOT)
-	casting_state.stopped.connect(_grounded, CONNECT_ONE_SHOT)
+	casting_state.stopped.connect(_on_shot_finished, CONNECT_ONE_SHOT)
+	
+func _unselected() -> void:
+	var unselected_state := fsm.change_state(PlayerUnselectedState) as PlayerUnselectedState
+	
+
 # --------------------------------------
 func aim() -> void:
 	var mouse_pos := get_global_mouse_position()
@@ -138,14 +146,32 @@ func cast_spell() -> void:
 	else:
 		print("That spell is on cooldown!")
 		#TODO Play Sound
+# --------- PREVIEW ----------
+func _refresh_preview() -> void:
+	if not trajectory_preview:
+		return
+	var aiming := fsm.current_state is PlayerGroundedState or fsm.current_state is PlayerChargingState
+	trajectory_preview.visible = is_selected and can_act and aiming
 
 # --------- TURN -------------
+func select() -> void:
+	is_selected = true
+	_grounded()
+	
+func deselect() -> void:
+	is_selected = false
+	_unselected()
+
 func turn_start() -> void:
 	print("Turn Start!")
 	can_act = true
 	await get_tree().create_timer(1.0).timeout # simulate animation delay
 	if spell:
 		can_cast = true
+		
+func _on_shot_finished() -> void:
+	_grounded()
+	end_turn.call_deferred()
 
 func end_turn() -> void:
 	can_act = false
