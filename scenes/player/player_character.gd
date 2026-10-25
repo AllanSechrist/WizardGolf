@@ -23,6 +23,8 @@ var gravity: float
 var bounciness: float
 var friction: float
 var meter_speed: float
+var linear_damp: float
+var stop_speed: float
 
 var shot_power: float = 0.0
 var _meter_time: float = 0.0
@@ -64,6 +66,8 @@ func _apply_data() -> void:
 	bounciness = data.bounciness
 	friction = data.friction
 	meter_speed = data.meter_speed
+	linear_damp = data.linear_damp
+	stop_speed = data.stop_speed
 # -------------- STATE --------------
 func _on_state_changed() -> void:
 	fsm_debug_label.text = fsm.current_state.get_script().get_global_name()

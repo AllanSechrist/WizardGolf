@@ -27,15 +27,16 @@ func enter() -> void:
 func physics_update(_delta: float) -> void:
 	if not player:
 		return
+	
+	player.velocity *= exp(-player.linear_damp * _delta)
 	player.velocity = player.velocity.move_toward(Vector2.ZERO, player.friction * _delta)
 	
-	var motion = player.velocity * _delta
-	var collision = player.move_and_collide(motion)
-	
+	var collision := player.move_and_collide(player.velocity * _delta)
 	if collision:
 		player.velocity = player.velocity.bounce(collision.get_normal()) * player.bounciness
 		
-	if player.velocity == Vector2.ZERO:
+	if player.velocity.length() < player.stop_speed:
+		player.velocity = Vector2.ZERO
 		stopped.emit()
 		
 func unhandled_event(_event: InputEvent) -> void:
