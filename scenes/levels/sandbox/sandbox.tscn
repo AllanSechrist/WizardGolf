@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://b2vt6xhyn30i3" path="res://scenes/player/player_character.tscn" id="2_hxtk3"]
 [ext_resource type="Script" uid="uid://mwsq0a6u5vhu" path="res://scripts/camera/game_camera.gd" id="2_qehtm"]
 [ext_resource type="PackedScene" uid="uid://b03t0n4y2ayuf" path="res://scenes/Enemy/enemy_spawn_point.tscn" id="2_tsojc"]
+[ext_resource type="Script" uid="uid://bb3at5rjyxn8v" path="res://custom_components/managers/enemy_spawns.gd" id="3_frknw"]
 [ext_resource type="Resource" uid="uid://de7xajqvn7tyq" path="res://custom_resources/enemies/bat_data.tres" id="3_qblkx"]
 [ext_resource type="Resource" uid="uid://c57hba2ar8slb" path="res://custom_resources/enemies/slime_data.tres" id="4_1qtr1"]
 [ext_resource type="PackedScene" uid="uid://bxjnx0sp7fwn5" path="res://scenes/hud/hud.tscn" id="5_3p4x5"]
@@ -31,7 +32,8 @@ script = ExtResource("1_caqlm")
 [node name="Camera2D" type="Camera2D" parent="." unique_id=461109513]
 script = ExtResource("2_qehtm")
 
-[node name="EnemySpawns" type="Node" parent="." unique_id=1816441359]
+[node name="EnemySpawns" type="Node2D" parent="." unique_id=365419486]
+script = ExtResource("3_frknw")
 
 [node name="EnemySpawnPoint" parent="EnemySpawns" unique_id=1045696050 instance=ExtResource("2_tsojc")]
 position = Vector2(586, 327)

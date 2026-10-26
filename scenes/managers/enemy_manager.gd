@@ -1,41 +1,47 @@
 extends Node
 class_name EnemyManager
 
-@onready var enemy_spawns: Node = $"../EnemySpawns"
+signal update_score(amount: int)
+signal enemy_defeated(enemy: Enemy, cause: StringName, remaining: int)
+signal all_enemies_defeated
 
-var enemy_scene := preload("res://scenes/Enemy/enemy.tscn")
-var hole_scene := preload("res://scenes/hole/hole.tscn")
+@export var enemy_scene: PackedScene = preload("res://scenes/Enemy/enemy.tscn")
+@export var spawn_root: Node
+@export var enemy_container: Node
 
-signal update_score(int)
-#signal spell_acquired(enemy: Enemy)
-signal final_enemy(enemy: Enemy)
-
-var enemies: Array
+var alive_enemies: Array[Enemy] = []
 
 func _ready() -> void:
-	for spawn_point in enemy_spawns.get_children():
-		var enemy = enemy_scene.instantiate()
-		enemy.data = spawn_point.enemy_data
-		enemy.global_position = spawn_point.global_position
-		add_child(enemy)
-		enemy.defeat.connect(_on_defeat)
-		
-	enemies = get_children()
+	if enemy_container == null:
+		enemy_container = self
+	if spawn_root == null:
+		push_warning("EnemyManager: spawn root is not set.")
+		return
+	for point in spawn_root.get_spawn_points():
+		_spawn(point)
 
-func _on_defeat(enemy: Enemy) -> void:
+func _spawn(point: EnemySpawnPoint) -> void:
+	var enemy: Enemy = enemy_scene.instantiate()
+	enemy.data = point.enemy_data
+	enemy_container.add_child(enemy)
+	enemy.global_position = point.global_position
+	enemy.defeated.connect(_on_enemy_defeated)
+	alive_enemies.append(enemy)
+	
+func _on_enemy_defeated(enemy: Enemy, cause: StringName) -> void:
+	alive_enemies.erase(enemy)
 	update_score.emit(1)
-	#if enemy.spell:
-		#spell_acquired.emit(enemy.spell)
-	enemies.erase(enemy) # remove from Array
-	enemy.die()
-	if enemies.size() == 1:
-		final_enemy.emit(enemies[0])
+	
+	enemy_defeated.emit(enemy, cause, alive_enemies.size())
+	if alive_enemies.is_empty():
+		all_enemies_defeated.emit()
 		
-
-func turn_into_hole(enemy: Enemy) -> Area2D:
-	var hole: Hole = hole_scene.instantiate()
-	enemy.get_parent().add_child(hole)
-	hole.global_position = enemy.global_position
-	enemies.erase(enemy)
-	enemy.die()
-	return hole
+func all_settled() -> bool:
+	for enemy in alive_enemies:
+		if is_instance_valid(enemy) and not enemy.is_settled():
+			return false
+	return true
+	
+func wait_until_settled() -> void:
+	while not all_settled():
+		await get_tree().physics_frame
