@@ -2,11 +2,13 @@ extends Node
 class_name PartyManager
 
 signal selection_changed(character: PlayerCharacter)
+signal shot_finished(character: PlayerCharacter)
 signal party_turn_finished
 
 var party: Array[PlayerCharacter] = []
 var selected: PlayerCharacter
 var _acted: Array[PlayerCharacter] = []
+var _resolving := false
 
 func _ready() -> void:
 	for child in get_children():
@@ -14,7 +16,6 @@ func _ready() -> void:
 			party.append(child)
 			child.turn_finished.connect(_on_character_turn_finished.bind(child))
 	start_party_turn()
-	print(party)
 	
 func start_party_turn() -> void:
 	_acted.clear()
@@ -23,7 +24,9 @@ func start_party_turn() -> void:
 	select(party[0])
 	
 func can_switch() -> bool:
-	# only switch while current character is idle
+	# only switch while current character is idle and nothing is still moving
+	if _resolving:
+		return false
 	return selected == null or selected.fsm.current_state is PlayerGroundedState
 	
 func select(character: PlayerCharacter) -> void:
@@ -50,9 +53,19 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 func _on_character_turn_finished(character: PlayerCharacter) -> void:
 	_acted.append(character)
+	_resolving = true
+	shot_finished.emit(character)
+	#_acted.append(character)
+	#if _acted.size() == party.size():
+		#selected.deselect()
+		#party_turn_finished.emit()
+	#else:
+		#select_next()
+
+func continue_turn() -> void:
+	_resolving = false
 	if _acted.size() == party.size():
 		selected.deselect()
 		party_turn_finished.emit()
 	else:
 		select_next()
-	
