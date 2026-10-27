@@ -168,7 +168,6 @@ func deselect() -> void:
 	_unselected()
 
 func turn_start() -> void:
-	print("Turn Start!")
 	can_act = true
 	await get_tree().create_timer(1.0).timeout # simulate animation delay
 	if spell:

@@ -24,6 +24,7 @@ shadow_size = 2
 size = Vector2(10, 12)
 
 [node name="PlayerCharacter" type="CharacterBody2D" unique_id=1168880997]
+collision_layer = 2
 motion_mode = 1
 script = ExtResource("1_dovo2")
 data = ExtResource("2_ocp37")
