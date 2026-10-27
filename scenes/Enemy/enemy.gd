@@ -6,19 +6,16 @@ signal defeated(enemy: Enemy, cause: StringName)
 @export var data: EnemyData
 @export var death_effect: PackedScene
 
-@export_group("Physics")
-@export var friction: float = 600.0
-@export var wall_bounce: float = 0.5
-@export var ball_restitution: float = 0.9
-@export var settle_speed: float = 5.0
-
-@export_group("Player Hits")
-@export var hit_transfer: float = 0.8
-@export var min_hit_speed: float = 40.0
-
 @onready var sprite_2d: Sprite2D = $Sprite2D
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
 @onready var hitbox: Area2D = $Hitbox
+
+var friction: float
+var wall_bounce: float
+var ball_restitution: float
+var settle_speed: float
+var hit_transfer: float
+var min_hit_speed: float
 
 var spell: Spell
 var is_dead := false
@@ -27,9 +24,18 @@ var _sinking := false
 func _ready() -> void:
 	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
 	if data:
-		sprite_2d.texture = data.sprite
-		spell = data.spell
+		_apply_data()
 	hitbox.body_entered.connect(_on_hitbox_body_entered)
+	
+func _apply_data() -> void:
+	sprite_2d.texture = data.sprite
+	spell = data.spell
+	friction = data.friction
+	wall_bounce = data.wall_bounce
+	ball_restitution = data.ball_restitution
+	settle_speed = data.settle_speed
+	hit_transfer = data.hit_transfer
+	min_hit_speed = data.min_hit_speed
 	
 func _physics_process(delta: float) -> void:
 	if is_dead or _sinking:
@@ -86,7 +92,7 @@ func is_settled() -> bool:
 		return false
 	return velocity.length() < settle_speed
 	
-func fall_into_hole(hole: Node2D) -> void:
+func fall_into_pocket(pocket: Node2D) -> void:
 	if is_dead or _sinking:
 		return
 	_sinking = true
@@ -95,10 +101,10 @@ func fall_into_hole(hole: Node2D) -> void:
 	hitbox.set_deferred("monitoring", false)
 	
 	var tween := create_tween().set_parallel()
-	tween.tween_property(self, "global_position", hole.global_position, 0.3)
+	tween.tween_property(self, "global_position", pocket.global_position, 0.3)
 	tween.tween_property(sprite_2d, "scale", Vector2.ZERO, 0.3)
 	await tween.finished
-	die(&"hole")
+	die(&"pocket")
 	
 func die(cause: StringName = &"unknown") -> void:
 	if is_dead:

@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://edbm2gyyx1ue"]
 
-[ext_resource type="Script" uid="uid://cjjo452itwt1j" path="res://scenes/hole/hole.gd" id="1_vjmb2"]
+[ext_resource type="Script" uid="uid://cjjo452itwt1j" path="res://scenes/pocket/pocket.gd" id="1_vjmb2"]
 [ext_resource type="Texture2D" uid="uid://cnpwo4t7t2fsr" path="res://assets/hole/hole_small_end.png" id="2_n61ei"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ga36a"]
 
-[node name="Hole" type="Area2D" unique_id=297257358]
+[node name="Pocket" type="Area2D" unique_id=297257358]
 script = ExtResource("1_vjmb2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=41935025]

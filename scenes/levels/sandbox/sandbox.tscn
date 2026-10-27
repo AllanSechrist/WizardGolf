@@ -51,9 +51,10 @@ enemy_data = ExtResource("5_qehtm")
 position = Vector2(586, 264)
 enemy_data = ExtResource("6_7eq11")
 
-[node name="EnemyManager" parent="." unique_id=144181799 instance=ExtResource("2_hf2it")]
+[node name="EnemyManager" parent="." unique_id=144181799 node_paths=PackedStringArray("spawn_root") instance=ExtResource("2_hf2it")]
+spawn_root = NodePath("../EnemySpawns")
 
-[node name="PartyManager" type="Node" parent="." unique_id=1905927071]
+[node name="PartyManager" type="Node2D" parent="." unique_id=767466174]
 script = ExtResource("9_e22dk")
 
 [node name="Wizard" parent="PartyManager" unique_id=1168880997 instance=ExtResource("2_hxtk3")]

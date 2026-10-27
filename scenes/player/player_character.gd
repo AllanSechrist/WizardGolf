@@ -47,7 +47,8 @@ var can_cast := false:
 const ExplosionEffect := preload("res://scenes/FX/explosion/explosion.tscn")
 
 func _ready() -> void:
-	_apply_data()
+	if data:
+		_apply_data()
 	_refresh_preview()
 	power_meter.visible = false
 	selection_reticle.visible = is_selected

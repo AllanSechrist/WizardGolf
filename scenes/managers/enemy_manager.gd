@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 class_name EnemyManager
 
 signal update_score(amount: int)
