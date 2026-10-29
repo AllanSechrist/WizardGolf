@@ -115,4 +115,5 @@ func die(cause: StringName = &"unknown") -> void:
 		get_tree().current_scene.add_child(fx)
 		fx.global_position = global_position
 	defeated.emit(self, cause)
+	print("Enemy Sunk!")
 	queue_free()

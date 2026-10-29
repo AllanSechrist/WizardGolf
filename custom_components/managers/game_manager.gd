@@ -67,10 +67,6 @@ func _update_hud_for(character: PlayerCharacter) -> void:
 	hud.update_spell(character.spell)
 	_change_icon(character.can_cast)
 	
-#func _on_new_spell(spell) -> void:
-	#hud.update_spell(spell)
-	#player.update_spell(spell)
-
 func _on_character_cast_icon_change(can_cast: bool, character: PlayerCharacter) -> void:
 	if character == party_manager.selected:
 		_change_icon(can_cast)

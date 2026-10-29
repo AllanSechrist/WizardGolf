@@ -57,12 +57,6 @@ func _on_character_turn_finished(character: PlayerCharacter) -> void:
 	_acted.append(character)
 	_resolving = true
 	shot_finished.emit(character)
-	#_acted.append(character)
-	#if _acted.size() == party.size():
-		#selected.deselect()
-		#party_turn_finished.emit()
-	#else:
-		#select_next()
 
 func continue_turn() -> void:
 	_resolving = false

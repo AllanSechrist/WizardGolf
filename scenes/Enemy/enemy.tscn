@@ -4,8 +4,10 @@
 [ext_resource type="Texture2D" uid="uid://1hm8tdw220b3" path="res://assets/Tiles/tile_0124.png" id="1_muyyy"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_84vye"]
+radius = 8.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vamnb"]
+radius = 8.0
 
 [node name="Enemy" type="CharacterBody2D" unique_id=2030177384]
 collision_layer = 4

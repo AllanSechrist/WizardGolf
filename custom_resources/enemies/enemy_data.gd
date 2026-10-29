@@ -5,7 +5,7 @@ class_name EnemyData
 @export var spell: Spell
 
 @export_group("Physics")
-@export var friction: float = 600.0
+@export var friction: float = 120.0
 @export var wall_bounce: float = 0.5
 @export var ball_restitution: float = 0.9
 @export var settle_speed: float = 5.0
