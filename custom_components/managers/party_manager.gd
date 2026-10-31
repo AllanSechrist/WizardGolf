@@ -21,7 +21,6 @@ func start_party_turn() -> void:
 	_acted.clear()
 	for character in party:
 		character.turn_start()
-		print(character.can_act)
 	select(party[0])
 	print("Turn Start!")
 	

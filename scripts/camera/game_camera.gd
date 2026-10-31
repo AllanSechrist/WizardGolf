@@ -1,10 +1,11 @@
 extends Camera2D
 class_name GameCamera
 
-enum Mode { FOLLOW, FREE }
+enum Mode { FOLLOW, PAN, FREE }
 
 @export_group("Follow")
 @export var target: Node2D
+@export var follow_offset := Vector2.ZERO 
 @export var follow_speed := 6.0
 @export var look_ahead := 0.2
 @export var max_look_ahead := 48.0
@@ -25,6 +26,9 @@ var _has_bounds := false
 var _target_was_moving := false
 
 var shake_tween: Tween
+var _pan_tween: Tween
+
+signal pan_finished
 
 func _ready() -> void:
 	Effects.camera = self
@@ -32,14 +36,27 @@ func _ready() -> void:
 	position_smoothing_enabled = false
 	refresh_bounds()
 	if target:
-		global_position = target.global_position
-		
-func follow(new_target: Node2D, snap := false) -> void:
+		snap_to_target()
+# --------- PUBLIC ------------------		
+func follow(new_target: Node2D, pan_time := 0.0) -> void:
 	target = new_target
-	mode = Mode.FOLLOW
 	_target_was_moving = false
-	if snap and target:
-		global_position = _clamp_to_bounds(target.global_position)
+	_kill_pan()
+	
+	if target == null or pan_time <= 0.0:
+		mode = Mode.FOLLOW
+		return
+		
+	mode = Mode.PAN
+	_pan_tween = create_tween()
+	_pan_tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	_pan_tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	_pan_tween.tween_property(self, "global_position", _clamp_to_bounds(_follow_point()), pan_time)
+	_pan_tween.finished.connect(_on_pan_finished)
+	
+func snap_to_target() -> void:
+	if target:
+		global_position = _clamp_to_bounds(_follow_point())
 		
 func recenter() -> void:
 	mode = Mode.FOLLOW
@@ -99,12 +116,26 @@ func _process(delta: float) -> void:
 		_target_was_moving = moving
 		
 	if mode == Mode.FOLLOW and target:
-		var goal := target.global_position
-		if body:
-			goal += (body.velocity * look_ahead).limit_length(max_look_ahead)
-		global_position = global_position.lerp(goal, 1.0 - exp(-follow_speed * delta))
+		global_position = global_position.lerp(_follow_point(), 1.0 - exp(-follow_speed * delta))
 		
 	global_position = _clamp_to_bounds(global_position)
+	
+func _follow_point() -> Vector2:
+	var point := target.global_position + follow_offset
+	var body := target as CharacterBody2D
+	if body:
+		point += (body.velocity * look_ahead).limit_length(max_look_ahead)
+	return point
+	
+func _on_pan_finished() -> void:
+	if mode == Mode.PAN:
+		mode = Mode.FOLLOW
+	pan_finished.emit()
+	
+func _kill_pan() -> void:
+	if _pan_tween and _pan_tween.is_valid():
+		_pan_tween.kill()
+	_pan_tween = null
 	
 func _clamp_to_bounds(p: Vector2) -> Vector2:
 	if not _has_bounds:

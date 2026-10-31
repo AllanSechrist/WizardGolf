@@ -31,36 +31,15 @@ func _ready() -> void:
 	# Camera
 	party_manager.selection_changed.connect(_on_selection_changed)
 	if party_manager.selected:
-		_attach_camera(party_manager.selected)
+		camera_2d.follow(party_manager.selected)
+		camera_2d.snap_to_target()
 		_update_hud_for(party_manager.selected)
 	hud.visible = true
 	
 # -------------- CAMERA ----------------
 func _on_selection_changed(character: PlayerCharacter) -> void:
 	_update_hud_for(character)
-	_detach_camera()
-	var target: RemoteTransform2D = character.get_node("CameraTransform")
-	await _pan_camera_to(target.global_position, switch_pan_time)
-	if character == party_manager.selected:
-		_attach_camera(character)
-		
-func _attach_camera(character: PlayerCharacter) -> void:
-	_follow = character.get_node("CameraTransform")
-	_follow.remote_path = _follow.get_path_to(camera_2d)
-	
-func _detach_camera() -> void:
-	if _follow:
-		_follow.remote_path = NodePath()
-	_follow = null
-
-func _pan_camera_to(pos: Vector2, duration: float = pan_time) -> void:
-	if _pan_tween and _pan_tween.is_valid():
-		_pan_tween.kill()
-	_pan_tween = create_tween()
-	_pan_tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
-	_pan_tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-	_pan_tween.tween_property(camera_2d, "global_position", pos, duration)
-	await _pan_tween.finished
+	camera_2d.follow(character, switch_pan_time) 
 	
 # -------------------------------------------
 func _update_hud_for(character: PlayerCharacter) -> void:
