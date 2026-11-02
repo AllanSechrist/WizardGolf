@@ -11,7 +11,6 @@ func enter() -> void:
 	player.trajectory_preview.visible = false
 	player.wand.visible = false
 	#TODO Animation player update
-	print("shot_curve ", player.shot_curve, " active_curve: ", player.active_curve)
 	
 func physics_update(_delta: float) -> void:
 	if not player:

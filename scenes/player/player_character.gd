@@ -183,14 +183,9 @@ func toggle_curve_shot_spell() -> void:
 	if shot_curve != 0.0:
 		clear_shot_curve()
 	else:
-		print("Curve Shot Cast!")
 		curve_spell.cast(self)
-		print("script: ", curve_spell.get_script().get_global_name(), " | strength: ", curve_spell.get("curve_strength"))
-		print(" shot curve is not ", shot_curve)
 		
 func clear_shot_curve() -> void:
-	print("clear curve shot called from:")
-	print_stack()
 	shot_curve = 0.0
 	curve_kept_on_bounce = 0.0
 	active_curve = 0.0
