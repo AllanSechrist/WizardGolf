@@ -22,6 +22,7 @@ var full_power_shot: float
 var gravity: float
 var bounciness: float
 var friction: float
+var mass: float
 var meter_speed: float
 var linear_damp: float
 var stop_speed: float
@@ -66,6 +67,7 @@ func _apply_data() -> void:
 	gravity = data.gravity
 	bounciness = data.bounciness
 	friction = data.friction
+	mass = data.mass
 	meter_speed = data.meter_speed
 	linear_damp = data.linear_damp
 	stop_speed = data.stop_speed

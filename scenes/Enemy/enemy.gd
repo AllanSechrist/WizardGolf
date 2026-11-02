@@ -11,6 +11,7 @@ signal defeated(enemy: Enemy, cause: StringName)
 @onready var hitbox: Area2D = $Hitbox
 
 var friction: float
+var mass: float
 var wall_bounce: float
 var ball_restitution: float
 var settle_speed: float
@@ -31,6 +32,7 @@ func _apply_data() -> void:
 	sprite_2d.texture = data.sprite
 	spell = data.spell
 	friction = data.friction
+	mass = data.mass
 	wall_bounce = data.wall_bounce
 	ball_restitution = data.ball_restitution
 	settle_speed = data.settle_speed
@@ -67,9 +69,9 @@ func _collide_with_enemy(other: Enemy, normal: Vector2, pre_velocity: Vector2) -
 	var relative := pre_velocity.dot(normal) - other.velocity.dot(normal)
 	if relative >= 0.0:
 		return
-	var impulse := (1.0 + ball_restitution) * 0.5 * relative
-	velocity = pre_velocity - normal * impulse
-	other.velocity += normal * impulse
+	var impulse := (1.0 + ball_restitution) * relative / (1.0 / mass + 1.0 / other.mass)
+	velocity = pre_velocity - normal * (impulse / mass)
+	other.velocity += normal * (impulse / other.mass)
 	
 func knock(new_velocity: Vector2) -> void:
 	if is_dead or _sinking:
@@ -79,11 +81,14 @@ func knock(new_velocity: Vector2) -> void:
 func _on_hitbox_body_entered(body: Node2D) -> void:
 	if body is not PlayerCharacter:
 		return
-	var player_speed := (body as PlayerCharacter).velocity.length()
+	var player := body as PlayerCharacter
+	var player_speed := player.velocity.length()
 	if player_speed < min_hit_speed:
 		return
-	var direction := (global_position - body.global_position).normalized()
-	knock(direction * player_speed * hit_transfer)
+	var player_mass: float = player.data.mass
+	var gain := 2.0 * player_mass / (player_mass + mass)
+	var direction := (global_position - player.global_position).normalized()
+	knock(direction * player_speed * gain * hit_transfer)
 	
 func is_settled() -> bool:
 	if is_dead:

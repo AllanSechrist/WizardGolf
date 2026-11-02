@@ -10,6 +10,7 @@ class_name CharacterData
 @export var full_power_shot := 600.0
 @export var gravity := 1200.0
 @export_range(0.0, 1.0, 0.01) var bounciness := 0.9
+@export_range(0.1, 10.0, 0.1) var mass: float = 1.0
 @export var friction := 120.0
 @export var linear_damp := 0.15
 @export var stop_speed := 6.0
