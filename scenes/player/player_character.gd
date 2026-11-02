@@ -32,6 +32,7 @@ var _meter_time: float = 0.0
 
 var can_act := true
 var spell: Spell
+var direction_snapshot: Vector2
 
 var is_selected: bool = false:
 	set(value):
@@ -78,7 +79,11 @@ func _on_state_changed() -> void:
 	
 func _grounded() -> void:
 	var grounded_state := fsm.change_state(PlayerGroundedState) as PlayerGroundedState
-	grounded_state.shoot_pressed.connect(_charging, CONNECT_ONE_SHOT)
+	grounded_state.shoot_pressed.connect(_aiming, CONNECT_ONE_SHOT)
+	
+func _aiming() -> void:
+	var aiming_state := fsm.change_state(PlayerAimingState) as PlayerAimingState
+	aiming_state.shoot_pressed.connect(_charging, CONNECT_ONE_SHOT)
 	
 func _charging() -> void:
 	var charging_state := fsm.change_state(PlayerChargingState) as PlayerChargingState
@@ -95,7 +100,7 @@ func _casting() -> void:
 	casting_state.stopped.connect(_on_shot_finished, CONNECT_ONE_SHOT)
 	
 func _unselected() -> void:
-	var unselected_state := fsm.change_state(PlayerUnselectedState) as PlayerUnselectedState
+	var _unselected_state := fsm.change_state(PlayerUnselectedState) as PlayerUnselectedState
 	
 
 # --------------------------------------
@@ -103,6 +108,9 @@ func aim() -> void:
 	var mouse_pos := get_global_mouse_position()
 	pivot.look_at(mouse_pos)
 
+func snapshot_direction() -> void:
+	direction_snapshot = get_launch_direction()
+	
 func get_launch_direction() -> Vector2:
 	return (global_position - get_global_mouse_position()).normalized()
 	
@@ -113,12 +121,11 @@ func apply_hit_response(delta_velocity: Vector2) -> void:
 	velocity += delta_velocity
 # --------- FX --------------
 func trigger_explosion() -> void:
-	var direction := get_launch_direction()
-	velocity = direction * get_launch_speed()
-	
+	velocity = direction_snapshot * get_launch_speed()
 	var fx := ExplosionEffect.instantiate()
 	fx.global_position = global_position
 	get_tree().current_scene.add_child(fx)
+	direction_snapshot = Vector2.ZERO
 	
 # --------- METER ---------
 func update_power_meter(delta: float) -> void:
@@ -160,7 +167,7 @@ func cast_spell() -> void:
 func _refresh_preview() -> void:
 	if not trajectory_preview:
 		return
-	var aiming := fsm.current_state is PlayerGroundedState or fsm.current_state is PlayerChargingState
+	var aiming := fsm.current_state is PlayerAimingState
 	trajectory_preview.visible = is_selected and can_act and aiming
 
 # --------- TURN -------------

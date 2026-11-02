@@ -11,6 +11,8 @@ signal finished
 
 var player: PlayerCharacter
 
+func is_castable(character: PlayerCharacter) -> bool:
+	return true
 
 func cast(character: PlayerCharacter) -> void:
 	player = character

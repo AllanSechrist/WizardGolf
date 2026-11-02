@@ -7,6 +7,7 @@ signal shoot_pressed
 
 func enter() -> void:
 	player = actor as PlayerCharacter
+	player.wand.visible = false
 	player.start_power_meter()
 	
 func physics_update(delta: float) -> void:
