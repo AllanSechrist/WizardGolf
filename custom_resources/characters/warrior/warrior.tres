@@ -1,5 +1,6 @@
 [gd_resource type="Resource" script_class="CharacterData" format=3 uid="uid://1k7fe02qq2w5"]
 
+[ext_resource type="Resource" uid="uid://da8m6otpcuo7i" path="res://custom_resources/spells/curve_shot/curve_shot.tres" id="1_dfrw8"]
 [ext_resource type="Script" uid="uid://bup0vtcpva3c5" path="res://custom_resources/characters/character_data.gd" id="1_spepm"]
 [ext_resource type="Resource" uid="uid://dv8mspkbkquvi" path="res://custom_resources/spells/stone_foot/stone_foot.tres" id="2_fj0ly"]
 [ext_resource type="Texture2D" uid="uid://bc0daen3kvsxr" path="res://assets/Tiles/tile_0087.png" id="3_dfrw8"]
@@ -10,4 +11,5 @@ script = ExtResource("1_spepm")
 icon = ExtResource("3_dfrw8")
 weapon = ExtResource("4_b8cjq")
 spell = ExtResource("2_fj0ly")
+curve_spell = ExtResource("1_dfrw8")
 metadata/_custom_type_script = "uid://bup0vtcpva3c5"

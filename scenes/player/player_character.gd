@@ -36,6 +36,7 @@ var spell: Spell
 var curve_spell: Spell
 var direction_snapshot: Vector2
 var curve_kept_on_bounce := 0.0
+var active_curve := 0.0
 
 var shot_curve := 0.0:
 	set(value):
@@ -128,9 +129,17 @@ func get_launch_speed() -> float:
 	
 func apply_hit_response(delta_velocity: Vector2) -> void:
 	velocity += delta_velocity
+	
+func step_velocity(vector: Vector2, curve: float, delta: float) -> Vector2:
+	vector *= exp(-linear_damp * delta)
+	vector = vector.move_toward(Vector2.ZERO, friction * delta)
+	if curve != 0.0:
+		vector = vector.rotated(curve * delta)
+	return vector
 # --------- FX --------------
 func trigger_explosion() -> void:
 	velocity = direction_snapshot * get_launch_speed()
+	active_curve = shot_curve * get_curve_sign(direction_snapshot)
 	var fx := ExplosionEffect.instantiate()
 	fx.global_position = global_position
 	get_tree().current_scene.add_child(fx)
@@ -170,21 +179,31 @@ func cast_spell() -> void:
 func toggle_curve_shot_spell() -> void:
 	if not curve_spell or not curve_spell.is_castable(self):
 		return
+	
 	if shot_curve != 0.0:
 		clear_shot_curve()
 	else:
+		print("Curve Shot Cast!")
 		curve_spell.cast(self)
+		print("script: ", curve_spell.get_script().get_global_name(), " | strength: ", curve_spell.get("curve_strength"))
+		print(" shot curve is not ", shot_curve)
 		
 func clear_shot_curve() -> void:
+	print("clear curve shot called from:")
+	print_stack()
 	shot_curve = 0.0
 	curve_kept_on_bounce = 0.0
+	active_curve = 0.0
 # --------- PREVIEW ----------
 func _refresh_preview() -> void:
 	if not trajectory_preview:
 		return
 	var aiming := fsm.current_state is PlayerAimingState
 	trajectory_preview.visible = is_selected and can_act and aiming
-
+	
+func get_curve_sign(dir: Vector2) -> float:
+	return -1.0 if dir.x < 0.0 else 1.0
+	
 # --------- TURN -------------
 func select() -> void:
 	is_selected = true

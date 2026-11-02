@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="CurveShot" format=3 uid="uid://da8m6otpcuo7i"]
+
+[ext_resource type="Texture2D" uid="uid://b54rljwkuxnd7" path="res://assets/UI/vines-eerie-1.png" id="1_b4lpd"]
+[ext_resource type="Script" uid="uid://cyj3partuoljm" path="res://custom_resources/spells/curve_shot/curve_shot.gd" id="2_b4lpd"]
+
+[resource]
+script = ExtResource("2_b4lpd")
+name = "Curve Shot"
+icon = ExtResource("1_b4lpd")
+metadata/_custom_type_script = "uid://cqeh77eepffty"

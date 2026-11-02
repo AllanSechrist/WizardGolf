@@ -11,17 +11,18 @@ func enter() -> void:
 	player.trajectory_preview.visible = false
 	player.wand.visible = false
 	#TODO Animation player update
+	print("shot_curve ", player.shot_curve, " active_curve: ", player.active_curve)
 	
 func physics_update(_delta: float) -> void:
 	if not player:
 		return
 	
-	player.velocity *= exp(-player.linear_damp * _delta)
-	player.velocity = player.velocity.move_toward(Vector2.ZERO, player.friction * _delta)
+	player.velocity = player.step_velocity(player.velocity, player.active_curve, _delta)
 	
 	var collision := player.move_and_collide(player.velocity * _delta)
 	if collision:
 		player.velocity = player.velocity.bounce(collision.get_normal()) * player.bounciness
+		player.active_curve *= player.curve_kept_on_bounce
 		
 	if player.velocity.length() < player.stop_speed:
 		player.velocity = Vector2.ZERO
