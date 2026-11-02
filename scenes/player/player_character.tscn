@@ -21,7 +21,7 @@ outline_color = Color(0, 0, 0, 1)
 shadow_size = 2
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_f85ux"]
-radius = 7.0
+radius = 8.0
 
 [node name="PlayerCharacter" type="CharacterBody2D" unique_id=1168880997]
 collision_layer = 2

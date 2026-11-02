@@ -108,6 +108,9 @@ func get_launch_direction() -> Vector2:
 	
 func get_launch_speed() -> float:
 	return lerpf(min_shot, full_power_shot, shot_power)
+	
+func apply_hit_response(delta_velocity: Vector2) -> void:
+	velocity += delta_velocity
 # --------- FX --------------
 func trigger_explosion() -> void:
 	var direction := get_launch_direction()

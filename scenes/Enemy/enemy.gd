@@ -15,7 +15,7 @@ var mass: float
 var wall_bounce: float
 var ball_restitution: float
 var settle_speed: float
-var hit_transfer: float
+var hit_restitution: float
 var min_hit_speed: float
 
 var spell: Spell
@@ -36,7 +36,7 @@ func _apply_data() -> void:
 	wall_bounce = data.wall_bounce
 	ball_restitution = data.ball_restitution
 	settle_speed = data.settle_speed
-	hit_transfer = data.hit_transfer
+	hit_restitution = data.hit_restitution
 	min_hit_speed = data.min_hit_speed
 	
 func _physics_process(delta: float) -> void:
@@ -82,13 +82,21 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 	if body is not PlayerCharacter:
 		return
 	var player := body as PlayerCharacter
-	var player_speed := player.velocity.length()
-	if player_speed < min_hit_speed:
+	if player.velocity.length() < min_hit_speed:
 		return
+
+	var normal := (global_position - player.global_position).normalized()
+	var velocity_normal := player.velocity.dot(normal)  # player's speed toward the enemy
+	if velocity_normal <= 0.0:
+		return  # moving away (e.g. already passed through), no hit
+
 	var player_mass: float = player.data.mass
-	var gain := 2.0 * player_mass / (player_mass + mass)
-	var direction := (global_position - player.global_position).normalized()
-	knock(direction * player_speed * gain * hit_transfer)
+	var total := player_mass + mass
+	var enemy_speed := (1.0 + hit_restitution) * player_mass / total * velocity_normal
+	var player_velocity_normal_after := (player_mass - hit_restitution * mass) / total * velocity_normal
+
+	knock(normal * enemy_speed)
+	player.apply_hit_response(normal * (player_velocity_normal_after - velocity_normal))
 	
 func is_settled() -> bool:
 	if is_dead:

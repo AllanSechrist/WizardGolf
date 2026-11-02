@@ -17,6 +17,7 @@
 [ext_resource type="Resource" uid="uid://1k7fe02qq2w5" path="res://custom_resources/characters/warrior/warrior.tres" id="11_8mdw8"]
 [ext_resource type="Resource" uid="uid://cc5ajsgyd1c3w" path="res://custom_resources/characters/cleric/cleric.tres" id="12_e22dk"]
 [ext_resource type="PackedScene" uid="uid://edbm2gyyx1ue" path="res://scenes/pocket/pocket.tscn" id="17_rtrq2"]
+[ext_resource type="PackedScene" uid="uid://d0m4sgnenj6sh" path="res://scenes/Enemy/enemy.tscn" id="18_covrc"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hxtk3"]
 texture = ExtResource("1_espmd")
@@ -82,6 +83,7 @@ tile_set = SubResource("TileSet_de53b")
 visible = false
 
 [node name="Pockets" type="Node2D" parent="." unique_id=1847235052]
+z_index = -1
 
 [node name="Pocket" parent="Pockets" unique_id=297257358 instance=ExtResource("17_rtrq2")]
 position = Vector2(645, 124)
@@ -94,3 +96,7 @@ position = Vector2(379, 340)
 
 [node name="Pocket4" parent="Pockets" unique_id=849588970 instance=ExtResource("17_rtrq2")]
 position = Vector2(644, 340)
+
+[node name="Enemy" parent="." unique_id=2030177384 instance=ExtResource("18_covrc")]
+visible = false
+position = Vector2(501, 162)

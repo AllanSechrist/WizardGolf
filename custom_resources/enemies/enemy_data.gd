@@ -12,5 +12,5 @@ class_name EnemyData
 @export var settle_speed: float = 5.0
 
 @export_group("Player Hits")
-@export var hit_transfer: float = 0.8
+@export_range(0.0, 1.0, 0.05) var hit_restitution: float = 0.6
 @export var min_hit_speed: float = 40.0

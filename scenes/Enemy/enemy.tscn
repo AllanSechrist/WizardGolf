@@ -7,7 +7,7 @@
 radius = 8.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vamnb"]
-radius = 8.0
+radius = 10.049875
 
 [node name="Enemy" type="CharacterBody2D" unique_id=2030177384]
 collision_layer = 4
