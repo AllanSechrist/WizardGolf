@@ -6,7 +6,7 @@ class_name CurveShot
 @export_range(0.0, 1.0) var curve_kept_on_bounce := 0.0
 
 func is_castable(player: PlayerCharacter) -> bool:
-	return player.fsm.current_state is PlayerChargingState
+	return player.fsm.current_state is PlayerAimingState
 
 func cast(player: PlayerCharacter) -> void:
 	player.shot_curve = curve_strength

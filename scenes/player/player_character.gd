@@ -16,6 +16,7 @@ class_name PlayerCharacter
 
 signal turn_finished
 signal cast_icon_change(can_cast: bool)
+signal shot_curve_changed(curve: float)
 
 var min_shot: float
 var full_power_shot: float
@@ -32,7 +33,14 @@ var _meter_time: float = 0.0
 
 var can_act := true
 var spell: Spell
+var curve_spell: Spell
 var direction_snapshot: Vector2
+var curve_kept_on_bounce := 0.0
+
+var shot_curve := 0.0:
+	set(value):
+		shot_curve = value
+		shot_curve_changed.emit(value)
 
 var is_selected: bool = false:
 	set(value):
@@ -62,7 +70,8 @@ func _ready() -> void:
 func _apply_data() -> void:
 	character.texture = data.icon
 	wand.texture = data.weapon
-	spell = data.spell
+	spell = data.spell.duplicate() if data.spell else null
+	curve_spell = data.curve_spell.duplicate() if data.curve_spell else null
 	min_shot = data.min_shot
 	full_power_shot = data.full_power_shot
 	gravity = data.gravity
@@ -150,12 +159,6 @@ func toggle_reticle_off() -> void:
 	selection_reticle.visible = false
 	
 # --------- SPELLS ----------
-#func update_spell(spell: Spell) -> void:
-	#spell = spell if spell else null
-	#if spell:
-		#can_cast = true
-		#print("Player Spell: " + spell.name)
-	
 func cast_spell() -> void:
 	if can_cast and spell:
 		spell.cast(self)
@@ -163,6 +166,18 @@ func cast_spell() -> void:
 	else:
 		print("That spell is on cooldown!")
 		#TODO Play Sound
+		
+func toggle_curve_shot_spell() -> void:
+	if not curve_spell or not curve_spell.is_castable(self):
+		return
+	if shot_curve != 0.0:
+		clear_shot_curve()
+	else:
+		curve_spell.cast(self)
+		
+func clear_shot_curve() -> void:
+	shot_curve = 0.0
+	curve_kept_on_bounce = 0.0
 # --------- PREVIEW ----------
 func _refresh_preview() -> void:
 	if not trajectory_preview:
@@ -181,11 +196,13 @@ func deselect() -> void:
 
 func turn_start() -> void:
 	can_act = true
+	clear_shot_curve()
 	await get_tree().create_timer(1.0).timeout # simulate animation delay
 	if spell:
 		can_cast = true
 		
 func _on_shot_finished() -> void:
+	clear_shot_curve()
 	_grounded()
 	end_turn.call_deferred()
 
