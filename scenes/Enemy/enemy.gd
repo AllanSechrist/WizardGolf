@@ -97,6 +97,7 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 
 	knock(normal * enemy_speed)
 	player.apply_hit_response(normal * (player_velocity_normal_after - velocity_normal))
+	player.apply_spin_on_enemy_hit(normal, velocity_normal)
 	
 func is_settled() -> bool:
 	if is_dead:

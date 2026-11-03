@@ -20,5 +20,8 @@ class_name CharacterData
 @export var max_curve := 10.0
 @export_range(0.0, 1.0) var curve_kept_on_bounce := 0.0
 
+@export_category("Spin")
+@export var max_spin := 5
+
 @export_category("Meter")
 @export var meter_speed: float = 1.1

@@ -17,6 +17,7 @@ class_name PlayerCharacter
 signal turn_finished
 signal cast_icon_change(can_cast: bool)
 signal shot_curve_changed(curve: float)
+signal spin_changed(spin: Vector2i)
 
 var min_shot: float
 var full_power_shot: float
@@ -29,15 +30,20 @@ var linear_damp: float
 var stop_speed: float
 
 var shot_power: float = 0.0
+var shot_direction := Vector2.ZERO
 var _meter_time: float = 0.0
 
 var can_act := true
 var spell: Spell
 var direction_snapshot: Vector2
+
 var curve_kept_on_bounce := 0.0
 var active_curve := 0.0
 var curve_step := 1.0
 var max_curve := 10.0
+
+var max_spin: int
+var spin := Vector2i.ZERO
 
 var shot_curve := 0.0:
 	set(value):
@@ -76,6 +82,7 @@ func _apply_data() -> void:
 	curve_step = data.curve_step
 	max_curve = data.max_curve
 	min_shot = data.min_shot
+	max_spin = data.max_spin
 	full_power_shot = data.full_power_shot
 	gravity = data.gravity
 	bounciness = data.bounciness
@@ -140,6 +147,7 @@ func step_velocity(vector: Vector2, curve: float, delta: float) -> Vector2:
 	return vector
 # --------- FX --------------
 func trigger_explosion() -> void:
+	shot_direction = direction_snapshot
 	velocity = direction_snapshot * get_launch_speed()
 	active_curve = shot_curve * get_curve_sign(direction_snapshot)
 	var fx := ExplosionEffect.instantiate()
@@ -178,10 +186,52 @@ func cast_spell() -> void:
 		print("That spell is on cooldown!")
 		#TODO Play Sound
 
+# ------------ CURVE/SPIN -----------
+const FOLLOW_STEP := 0.25        
+const DRAW_STEP := 0.3           
+const SIDE_STEP := 0.25  
+const WALL_ANGLE_STEP := PI / 12.0  
+const LIVELY_STEP := 0.1        
+const DEAD_STEP := 0.2          
+
 func clear_shot_curve() -> void:
 	shot_curve = 0.0
 	active_curve = 0.0
 	
+func consume_spin() -> Vector2i:
+	var s := spin
+	spin = Vector2i.ZERO
+	spin_changed.emit(spin)
+	return s
+
+func clear_spin() -> void:
+	spin = Vector2i.ZERO
+	spin_changed.emit(spin)
+	
+func apply_spin_on_wall(pre_velocity: Vector2, normal: Vector2) -> Vector2:
+	# used by rolling state
+	var s := consume_spin()
+	var out := pre_velocity.bounce(normal) * bounciness
+	if s.x != 0:
+		out = out.rotated(s.x * WALL_ANGLE_STEP)
+		if out.dot(normal) < 0.0: # hug wall
+			out = out.slide(normal)
+	elif s.y > 0:
+		out *= 1.0 + s.y * LIVELY_STEP
+	elif s.y < 0:
+		out *= maxf(0.0, 1.0 + s.y * DEAD_STEP)
+	return out
+	
+func apply_spin_on_enemy_hit(normal: Vector2, impact_speed: float) -> void:
+	var s := consume_spin()
+	if s.y > 0:
+		velocity = normal * impact_speed * (s.y * FOLLOW_STEP)
+	elif s.y < 0:
+		velocity = normal * impact_speed * (s.y * DRAW_STEP)
+	elif s.x != 0:
+		var side := normal.rotated(PI / 2.0)
+		velocity += side * impact_speed * (s.x * SIDE_STEP)
+
 # --------- PREVIEW ----------
 func _refresh_preview() -> void:
 	if not trajectory_preview:
@@ -203,6 +253,7 @@ func deselect() -> void:
 
 func turn_start() -> void:
 	can_act = true
+	clear_spin()
 	clear_shot_curve()
 	await get_tree().create_timer(1.0).timeout # simulate animation delay
 	if spell:
@@ -210,6 +261,7 @@ func turn_start() -> void:
 		
 func _on_shot_finished() -> void:
 	clear_shot_curve()
+	clear_spin()
 	_grounded()
 	end_turn.call_deferred()
 

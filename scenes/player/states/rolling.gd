@@ -20,8 +20,10 @@ func physics_update(_delta: float) -> void:
 	
 	var collision := player.move_and_collide(player.velocity * _delta)
 	if collision:
-		player.velocity = player.velocity.bounce(collision.get_normal()) * player.bounciness
-		player.active_curve *= player.curve_kept_on_bounce
+		var normal := collision.get_normal()
+		if player.velocity.dot(normal) < 0.0:
+			player.velocity = player.apply_spin_on_wall(player.velocity, normal)
+			player.active_curve *= player.curve_kept_on_bounce
 		
 	if player.velocity.length() < player.stop_speed:
 		player.velocity = Vector2.ZERO
