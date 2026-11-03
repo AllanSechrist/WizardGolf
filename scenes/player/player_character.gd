@@ -33,11 +33,11 @@ var _meter_time: float = 0.0
 
 var can_act := true
 var spell: Spell
-var curve_spell: Spell
 var direction_snapshot: Vector2
 var curve_kept_on_bounce := 0.0
 var active_curve := 0.0
-var curve_active := false
+var curve_step := 1.0
+var max_curve := 10.0
 
 var shot_curve := 0.0:
 	set(value):
@@ -73,7 +73,8 @@ func _apply_data() -> void:
 	character.texture = data.icon
 	wand.texture = data.weapon
 	spell = data.spell.duplicate() if data.spell else null
-	curve_spell = data.curve_spell.duplicate() if data.curve_spell else null
+	curve_step = data.curve_step
+	max_curve = data.max_curve
 	min_shot = data.min_shot
 	full_power_shot = data.full_power_shot
 	gravity = data.gravity
@@ -176,26 +177,11 @@ func cast_spell() -> void:
 	else:
 		print("That spell is on cooldown!")
 		#TODO Play Sound
-		
-func toggle_curve_shot_spell() -> void:
-	if not curve_spell or not curve_spell.is_castable(self):
-		return
-	
-	if curve_active:
-		clear_shot_curve()
-	else:
-		curve_spell.cast(self)
-		curve_active = true
-		
-func adjust_curve(steps: int) -> void:
-	if curve_active and curve_spell is CurveShot:
-		curve_spell.adjust(self, steps)
-		
+
 func clear_shot_curve() -> void:
 	shot_curve = 0.0
-	curve_kept_on_bounce = 0.0
 	active_curve = 0.0
-	curve_active = false
+	
 # --------- PREVIEW ----------
 func _refresh_preview() -> void:
 	if not trajectory_preview:

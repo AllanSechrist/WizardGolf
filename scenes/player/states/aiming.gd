@@ -23,8 +23,13 @@ func unhandled_event(event: InputEvent) -> void:
 		player.snapshot_direction()
 		shoot_pressed.emit()
 	elif event.is_action_pressed("curve_shot"):
-		player.toggle_curve_shot_spell()
+		player.shot_curve = 0.0
 	elif event.is_action_pressed("increase_curve"):
-		player.adjust_curve(1)
+		_adjust_curve(1)
 	elif event.is_action_pressed("decrease_curve"):
-		player.adjust_curve(-1)
+		_adjust_curve(-1)
+		
+func _adjust_curve(steps: int) -> void:
+	var value = player.shot_curve + steps * player.curve_step
+	value = snappedf(value, player.curve_step)
+	player.shot_curve = clampf(value, -player.max_curve, player.max_curve)
