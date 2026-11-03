@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://chyg6ft0lpnfw" path="res://assets/Tiles/tile_0129.png" id="3_gmlin"]
 [ext_resource type="Script" uid="uid://dg73070mik3br" path="res://custom_components/state/finite_state_machine.gd" id="3_ocp37"]
 [ext_resource type="Texture2D" uid="uid://o6nx0ncf4d7u" path="res://assets/Tiles/tile_0060.png" id="7_f85ux"]
+[ext_resource type="PackedScene" uid="uid://dhjnadck7cxei" path="res://scenes/FX/spin/spin_particles.tscn" id="8_ryjgy"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qek5x"]
 bg_color = Color(0.060530342, 0.060530365, 0.060530297, 1)
@@ -87,3 +88,5 @@ shape = SubResource("CircleShape2D_f85ux")
 
 [node name="SelectionReticle" type="Sprite2D" parent="." unique_id=322972570]
 texture = ExtResource("7_f85ux")
+
+[node name="SpinParticles" parent="." unique_id=625335700 instance=ExtResource("8_ryjgy")]

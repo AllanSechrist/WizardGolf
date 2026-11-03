@@ -10,6 +10,7 @@ class_name PlayerCharacter
 @onready var fsm: FiniteStateMachine = $FiniteStateMachine
 @onready var fsm_debug_label: Label = $FSMDebugLabel
 @onready var selection_reticle: Sprite2D = $SelectionReticle
+@onready var spin_particles: SpinParticles = $SpinParticles
 
 @export_category("Data")
 @export var data: CharacterData
@@ -74,6 +75,7 @@ func _ready() -> void:
 	_unselected()
 	fsm.state_changed.connect(_on_state_changed)
 	fsm_debug_label.text = fsm.current_state.get_script().get_global_name()
+	spin_changed.connect(func(s: Vector2i): spin_particles.show_spin(s, max_spin))
 	
 func _apply_data() -> void:
 	character.texture = data.icon
