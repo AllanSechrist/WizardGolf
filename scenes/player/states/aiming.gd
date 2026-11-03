@@ -24,3 +24,7 @@ func unhandled_event(event: InputEvent) -> void:
 		shoot_pressed.emit()
 	elif event.is_action_pressed("curve_shot"):
 		player.toggle_curve_shot_spell()
+	elif event.is_action_pressed("increase_curve"):
+		player.adjust_curve(1)
+	elif event.is_action_pressed("decrease_curve"):
+		player.adjust_curve(-1)

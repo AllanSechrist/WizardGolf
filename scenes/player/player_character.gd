@@ -37,6 +37,7 @@ var curve_spell: Spell
 var direction_snapshot: Vector2
 var curve_kept_on_bounce := 0.0
 var active_curve := 0.0
+var curve_active := false
 
 var shot_curve := 0.0:
 	set(value):
@@ -180,15 +181,21 @@ func toggle_curve_shot_spell() -> void:
 	if not curve_spell or not curve_spell.is_castable(self):
 		return
 	
-	if shot_curve != 0.0:
+	if curve_active:
 		clear_shot_curve()
 	else:
 		curve_spell.cast(self)
+		curve_active = true
+		
+func adjust_curve(steps: int) -> void:
+	if curve_active and curve_spell is CurveShot:
+		curve_spell.adjust(self, steps)
 		
 func clear_shot_curve() -> void:
 	shot_curve = 0.0
 	curve_kept_on_bounce = 0.0
 	active_curve = 0.0
+	curve_active = false
 # --------- PREVIEW ----------
 func _refresh_preview() -> void:
 	if not trajectory_preview:
