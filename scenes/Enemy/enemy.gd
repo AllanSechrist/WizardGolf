@@ -90,7 +90,7 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 	if velocity_normal <= 0.0:
 		return  # moving away (e.g. already passed through), no hit
 
-	var player_mass: float = player.data.mass
+	var player_mass: float = player.mass
 	var total := player_mass + mass
 	var enemy_speed := (1.0 + hit_restitution) * player_mass / total * velocity_normal
 	var player_velocity_normal_after := (player_mass - hit_restitution * mass) / total * velocity_normal
