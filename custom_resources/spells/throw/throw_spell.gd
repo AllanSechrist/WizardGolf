@@ -17,6 +17,9 @@ extends Spell
 
 var _time_tween: Tween
 
+const DEBUG_GRAB := Color(1.0, 0.8, 0.2)
+const DEBUG_POCKET := Color(0.3, 0.8, 1.0)
+
 func is_castable(character: PlayerCharacter) -> bool:
 	return not _find_targets(character).is_empty()
 
@@ -100,3 +103,23 @@ func _nearest(nodes: Array, from: Vector2, radius: float) -> Node2D:
 			best_d = d
 			best = n
 	return best
+	
+func draw_debug(canvas: Node2D, character: PlayerCharacter) -> void:
+	var tree := character.get_tree()
+	var enemy := _nearest(tree.get_nodes_in_group(&"enemies"), character.global_position, grab_radius)
+	var pocket := _nearest(tree.get_nodes_in_group(&"pockets"), character.global_position, pocket_radius)
+
+	# Rings: bright when something is in range, faded when not.
+	var grab_col := DEBUG_GRAB if enemy else Color(DEBUG_GRAB, 0.35)
+	var pocket_col := DEBUG_POCKET if pocket else Color(DEBUG_POCKET, 0.35)
+	canvas.draw_arc(Vector2.ZERO, grab_radius, 0.0, TAU, 48, grab_col, 1.0)
+	canvas.draw_arc(Vector2.ZERO, pocket_radius, 0.0, TAU, 96, pocket_col, 1.0)
+
+	# Lines to the targets the spell would actually pick.
+	if enemy:
+		canvas.draw_line(Vector2.ZERO, canvas.to_local(enemy.global_position), DEBUG_GRAB, 1.0)
+	if pocket:
+		var pocket_local := canvas.to_local(pocket.global_position)
+		canvas.draw_line(Vector2.ZERO, pocket_local, DEBUG_POCKET, 1.0)
+		# Where the enemy would be held before launch.
+		canvas.draw_circle(pocket_local.normalized() * hold_distance, 2.0, Color.WHITE)

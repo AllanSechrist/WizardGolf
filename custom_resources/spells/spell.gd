@@ -25,3 +25,6 @@ func play_effect() -> void:
 		print("spell!")
 		var parent: Node = player if attach_to_caster else null
 		Effects.spawn(effect_scene, player.global_position, parent)
+		
+func draw_debug(canvas: Node2D, character: PlayerCharacter) -> void:
+	pass

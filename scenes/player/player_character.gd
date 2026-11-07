@@ -11,6 +11,7 @@ class_name PlayerCharacter
 @onready var fsm_debug_label: Label = $FSMDebugLabel
 @onready var selection_reticle: Sprite2D = $SelectionReticle
 @onready var spin_particles: SpinParticles = $SpinParticles
+@onready var spell_debug_draw: SpellDebugDraw = $SpellDebugDraw
 
 @export_category("Data")
 @export var data: CharacterData
