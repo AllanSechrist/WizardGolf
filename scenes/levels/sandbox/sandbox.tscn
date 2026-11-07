@@ -31,52 +31,56 @@ sources/0 = SubResource("TileSetAtlasSource_hxtk3")
 [node name="Sandbox" type="Node2D" unique_id=1238270693]
 script = ExtResource("1_caqlm")
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=461109513]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=461109513 node_paths=PackedStringArray("bounds_source")]
 script = ExtResource("2_qehtm")
+bounds_source = NodePath("../TileMapLayer")
+start_in_overview = true
+pixel_perfect_overview = true
 
 [node name="EnemySpawns" type="Node2D" parent="." unique_id=365419486]
+position = Vector2(20, 5)
 script = ExtResource("3_frknw")
 
 [node name="EnemySpawnPoint" parent="EnemySpawns" unique_id=1045696050 instance=ExtResource("2_tsojc")]
-position = Vector2(586, 327)
+position = Vector2(600, 225)
 enemy_data = ExtResource("3_qblkx")
 
 [node name="EnemySpawnPoint2" parent="EnemySpawns" unique_id=4755533 instance=ExtResource("2_tsojc")]
-position = Vector2(587, 206)
+position = Vector2(600, 275)
 enemy_data = ExtResource("4_1qtr1")
 
 [node name="EnemySpawnPoint3" parent="EnemySpawns" unique_id=595218223 instance=ExtResource("2_tsojc")]
-position = Vector2(587, 152)
+position = Vector2(600, 250)
 enemy_data = ExtResource("5_qehtm")
 
 [node name="EnemySpawnPoint4" parent="EnemySpawns" unique_id=1330630484 instance=ExtResource("2_tsojc")]
-position = Vector2(586, 264)
+position = Vector2(600, 300)
 enemy_data = ExtResource("6_7eq11")
 
 [node name="EnemyManager" parent="." unique_id=144181799 node_paths=PackedStringArray("spawn_root") instance=ExtResource("2_hf2it")]
 spawn_root = NodePath("../EnemySpawns")
 
 [node name="PartyManager" type="Node2D" parent="." unique_id=767466174]
-position = Vector2(198, -1)
+position = Vector2(198, 6)
 script = ExtResource("9_e22dk")
 
 [node name="Wizard" parent="PartyManager" unique_id=1168880997 instance=ExtResource("2_hxtk3")]
-position = Vector2(227, 162)
+position = Vector2(200, 225)
 data = ExtResource("10_7eq11")
 
 [node name="Warrior" parent="PartyManager" unique_id=1514144025 instance=ExtResource("2_hxtk3")]
-position = Vector2(228, 225)
+position = Vector2(200, 250)
 data = ExtResource("11_8mdw8")
 
 [node name="Thief" parent="PartyManager" unique_id=1728837579 instance=ExtResource("2_hxtk3")]
-position = Vector2(227, 278)
+position = Vector2(200, 275)
 
 [node name="Cleric" parent="PartyManager" unique_id=511575997 instance=ExtResource("2_hxtk3")]
-position = Vector2(226, 325)
+position = Vector2(200, 300)
 data = ExtResource("12_e22dk")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1787881906]
-tile_map_data = PackedByteArray("AAAWAAYAAAAAAAAAAAAXAAYAAAAAAAAAAAAYAAYAAAAAAAAAAAAZAAYAAAAAAAAAAAAaAAYAAAAAAAAAAAAbAAYAAAAAAAAAAAAcAAYAAAAAAAAAAAAdAAYAAAAAAAAAAAAeAAYAAAAAAAAAAAAfAAYAAAAAAAAAAAAgAAYAAAAAAAAAAAAhAAYAAAAAAAAAAAAiAAYAAAAAAAAAAAAjAAYAAAAAAAAAAAAkAAYAAAAAAAAAAAAlAAYAAAAAAAAAAAAmAAYAAAAAAAAAAAAnAAYAAAAAAAAAAAAoAAYAAAAAAAAAAAApAAYAAAAAAAAAAAApAAcAAAAAAAAAAAApAAgAAAAAAAAAAAApAAkAAAAAAAAAAAApAAoAAAAAAAAAAAApAAsAAAAAAAAAAAApAAwAAAAAAAAAAAApAA0AAAAAAAAAAAApAA4AAAAAAAAAAAApAA8AAAAAAAAAAAApABAAAAAAAAAAAAApABEAAAAAAAAAAAApABIAAAAAAAAAAAApABMAAAAAAAAAAAApABQAAAAAAAAAAAApABUAAAAAAAAAAAApABYAAAAAAAAAAAAoABYAAAAAAAAAAAAnABYAAAAAAAAAAAAmABYAAAAAAAAAAAAlABYAAAAAAAAAAAAkABYAAAAAAAAAAAAjABYAAAAAAAAAAAAiABYAAAAAAAAAAAAhABYAAAAAAAAAAAAgABYAAAAAAAAAAAAfABYAAAAAAAAAAAAeABYAAAAAAAAAAAAdABYAAAAAAAAAAAAcABYAAAAAAAAAAAAbABYAAAAAAAAAAAAaABYAAAAAAAAAAAAZABYAAAAAAAAAAAAYABYAAAAAAAAAAAAXABYAAAAAAAAAAAAWABYAAAAAAAAAAAAWABUAAAAAAAAAAAAWABQAAAAAAAAAAAAWABMAAAAAAAAAAAAWABIAAAAAAAAAAAAWABEAAAAAAAAAAAAWABAAAAAAAAAAAAAWAA8AAAAAAAAAAAAWAA4AAAAAAAAAAAAWAA0AAAAAAAAAAAAWAAwAAAAAAAAAAAAWAAsAAAAAAAAAAAAWAAoAAAAAAAAAAAAWAAkAAAAAAAAAAAAWAAgAAAAAAAAAAAAWAAcAAAAAAAAAAAA=")
+tile_map_data = PackedByteArray("AAApAAwAAAAAAAAAAAApAA0AAAAAAAAAAAApAA4AAAAAAAAAAAApAA8AAAAAAAAAAAApABAAAAAAAAAAAAApABEAAAAAAAAAAAApABIAAAAAAAAAAAApABMAAAAAAAAAAAApABQAAAAAAAAAAAApABUAAAAAAAAAAAApABYAAAAAAAAAAAAoABYAAAAAAAAAAAAnABYAAAAAAAAAAAAmABYAAAAAAAAAAAAlABYAAAAAAAAAAAAkABYAAAAAAAAAAAAjABYAAAAAAAAAAAAiABYAAAAAAAAAAAAhABYAAAAAAAAAAAAgABYAAAAAAAAAAAAfABYAAAAAAAAAAAAeABYAAAAAAAAAAAAdABYAAAAAAAAAAAAcABYAAAAAAAAAAAAbABYAAAAAAAAAAAAaABYAAAAAAAAAAAAZABYAAAAAAAAAAAAYABYAAAAAAAAAAAAXABYAAAAAAAAAAAAWABYAAAAAAAAAAAAWABUAAAAAAAAAAAAWABQAAAAAAAAAAAAWABMAAAAAAAAAAAAWABIAAAAAAAAAAAAWABEAAAAAAAAAAAAWABAAAAAAAAAAAAAWAA8AAAAAAAAAAAAWAA4AAAAAAAAAAAAWAA0AAAAAAAAAAAAWAAwAAAAAAAAAAAApAAsAAAAAAAAAAAAoAAsAAAAAAAAAAAAnAAsAAAAAAAAAAAAmAAsAAAAAAAAAAAAlAAsAAAAAAAAAAAAkAAsAAAAAAAAAAAAjAAsAAAAAAAAAAAAiAAsAAAAAAAAAAAAhAAsAAAAAAAAAAAAgAAsAAAAAAAAAAAAfAAsAAAAAAAAAAAAeAAsAAAAAAAAAAAAdAAsAAAAAAAAAAAAcAAsAAAAAAAAAAAAbAAsAAAAAAAAAAAAaAAsAAAAAAAAAAAAZAAsAAAAAAAAAAAAYAAsAAAAAAAAAAAAXAAsAAAAAAAAAAAAWAAsAAAAAAAAAAAA=")
 tile_set = SubResource("TileSet_de53b")
 
 [node name="HUD" parent="." unique_id=1723985637 instance=ExtResource("5_3p4x5")]
@@ -86,10 +90,10 @@ visible = false
 z_index = -1
 
 [node name="Pocket" parent="Pockets" unique_id=297257358 instance=ExtResource("17_rtrq2")]
-position = Vector2(645, 124)
+position = Vector2(645, 204)
 
 [node name="Pocket2" parent="Pockets" unique_id=1440392235 instance=ExtResource("17_rtrq2")]
-position = Vector2(379, 124)
+position = Vector2(379, 203)
 
 [node name="Pocket3" parent="Pockets" unique_id=1060303885 instance=ExtResource("17_rtrq2")]
 position = Vector2(379, 340)

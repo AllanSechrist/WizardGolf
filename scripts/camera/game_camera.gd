@@ -1,7 +1,7 @@
 extends Camera2D
 class_name GameCamera
 
-enum Mode { FOLLOW, PAN, FREE }
+enum Mode { FOLLOW, PAN, FREE, OVERVIEW }
 
 @export_group("Follow")
 @export var target: Node2D
@@ -18,6 +18,11 @@ enum Mode { FOLLOW, PAN, FREE }
 @export var bounds_source: Node2D
 @export var bounds_margin := 32.0
 
+@export_group("Overview")  # NEW
+@export var start_in_overview := false
+@export var overview_time := 0.4
+@export var pixel_perfect_overview := false
+
 var mode := Mode.FOLLOW
 var is_dragging := false
 
@@ -27,6 +32,8 @@ var _target_was_moving := false
 
 var shake_tween: Tween
 var _pan_tween: Tween
+var _zoom_tween: Tween
+var _follow_zoom := Vector2.ONE
 
 signal pan_finished
 
@@ -35,12 +42,17 @@ func _ready() -> void:
 	make_current()
 	position_smoothing_enabled = false
 	refresh_bounds()
-	if target:
+	get_viewport().size_changed.connect(_on_viewport_resized)
+	if start_in_overview:
+		show_overview(0.0)
+	elif target:
 		snap_to_target()
 # --------- PUBLIC ------------------		
 func follow(new_target: Node2D, pan_time := 0.0) -> void:
 	target = new_target
 	_target_was_moving = false
+	if mode == Mode.OVERVIEW:
+		return
 	_kill_pan()
 	
 	if target == null or pan_time <= 0.0:
@@ -55,12 +67,46 @@ func follow(new_target: Node2D, pan_time := 0.0) -> void:
 	_pan_tween.finished.connect(_on_pan_finished)
 	
 func snap_to_target() -> void:
-	if target:
+	if target and mode != Mode.OVERVIEW:
 		global_position = _clamp_to_bounds(_follow_point())
 		
 func recenter() -> void:
+	if mode == Mode.OVERVIEW:
+		exit_overview()
+	else:
+		mode = Mode.FOLLOW
+		
+func show_overview(time := overview_time) -> void:
+	if not _has_bounds:
+		push_warning("GameCamera: no bounds. missing TileMapLayer")
+		return
+	_kill_pan()
+	is_dragging = false
+	if mode != Mode.OVERVIEW:
+		_follow_zoom = zoom
+	mode = Mode.OVERVIEW
+	_tween_view(_bounds.grow(bounds_margin).get_center(), _overview_zoom(), time)
+	
+func exit_overview(time := overview_time) -> void:
+	if mode != Mode.OVERVIEW:
+		return
 	mode = Mode.FOLLOW
-
+	_kill_zoom()
+	if time <= 0.0:
+		zoom = _follow_zoom
+		return
+	_zoom_tween = create_tween()
+	_zoom_tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	_zoom_tween.tween_property(self, "zoom", _follow_zoom, time)
+	
+func toggle_overview() -> void:
+	if mode == Mode.OVERVIEW:
+		exit_overview()
+		print("EXIT OVERVIEW")
+	else:
+		show_overview()
+		print("SHOW_OVERVIEW")
+		
 func shake(strength: float = 4.0, duration: float = 0.2, shakes: int = 6) -> void:
 	if shake_tween and shake_tween.is_running():
 		shake_tween.kill()
@@ -90,7 +136,12 @@ func refresh_bounds() -> void:
 # ----------- INPUT -------------
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("camera_pan"):
+	if event.is_action_pressed("camera_overview"):
+		toggle_overview()
+		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("camera_pan"):
+		if mode == Mode.OVERVIEW:
+			return
 		is_dragging = true
 		mode = Mode.FREE
 		get_viewport().set_input_as_handled()
@@ -107,6 +158,9 @@ func _unhandled_input(event: InputEvent) -> void:
 # ---------- UPDATE -----------
 
 func _process(delta: float) -> void:
+	if mode == Mode.OVERVIEW:
+		return
+	
 	var body := target as CharacterBody2D
 	
 	if body:
@@ -137,6 +191,34 @@ func _kill_pan() -> void:
 		_pan_tween.kill()
 	_pan_tween = null
 	
+func _kill_zoom() -> void:
+	if _zoom_tween and _zoom_tween.is_valid():
+		_zoom_tween.kill()
+	_zoom_tween = null
+	
+func _overview_zoom() -> Vector2:
+	var r := _bounds.grow(bounds_margin)
+	var view := get_viewport_rect().size
+	var z := minf(view.x / r.size.x, view.y / r.size.y)
+	if pixel_perfect_overview and z >= 1.0:
+		z = floorf(z)
+	return Vector2(z, z)
+	
+func _tween_view(pos: Vector2, new_zoom: Vector2, time: float) -> void:
+	_kill_zoom()
+	if time <= 0.0:
+		global_position = pos
+		zoom = new_zoom
+		return
+	_zoom_tween = create_tween().set_parallel(true)
+	_zoom_tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	_zoom_tween.tween_property(self, "global_position", pos, time)
+	_zoom_tween.tween_property(self, "zoom", new_zoom, time)
+
+func _on_viewport_resized() -> void:
+	if mode == Mode.OVERVIEW:
+		show_overview(0.0)
+
 func _clamp_to_bounds(p: Vector2) -> Vector2:
 	if not _has_bounds:
 		return p

@@ -189,7 +189,7 @@ func cast_spell() -> void:
 		#TODO Play Sound
 
 # ------------ CURVE/SPIN -----------
-const FOLLOW_STEP := 0.25        
+const FOLLOW_STEP := 0.15        
 const DRAW_STEP := 0.3           
 const SIDE_STEP := 0.25  
 const WALL_ANGLE_STEP := PI / 12.0  
@@ -201,10 +201,9 @@ func clear_shot_curve() -> void:
 	active_curve = 0.0
 	
 func consume_spin() -> Vector2i:
-	var s := spin
-	spin = Vector2i.ZERO
-	spin_changed.emit(spin)
-	return s
+	var spin_snapshot := spin
+	clear_spin()
+	return spin_snapshot
 
 func clear_spin() -> void:
 	spin = Vector2i.ZERO
@@ -212,27 +211,30 @@ func clear_spin() -> void:
 	
 func apply_spin_on_wall(pre_velocity: Vector2, normal: Vector2) -> Vector2:
 	# used by rolling state
-	var s := consume_spin()
+	var spin_snapshot := consume_spin()
 	var out := pre_velocity.bounce(normal) * bounciness
-	if s.x != 0:
-		out = out.rotated(s.x * WALL_ANGLE_STEP)
+	if spin_snapshot.x != 0:
+		out = out.rotated(spin_snapshot.x * WALL_ANGLE_STEP)
 		if out.dot(normal) < 0.0: # hug wall
 			out = out.slide(normal)
-	elif s.y > 0:
-		out *= 1.0 + s.y * LIVELY_STEP
-	elif s.y < 0:
-		out *= maxf(0.0, 1.0 + s.y * DEAD_STEP)
+	elif spin_snapshot.y > 0:
+		out *= 1.0 + spin_snapshot.y * LIVELY_STEP
+	elif spin_snapshot.y < 0:
+		out *= maxf(0.0, 1.0 + spin_snapshot.y * DEAD_STEP)
 	return out
 	
-func apply_spin_on_enemy_hit(normal: Vector2, impact_speed: float) -> void:
-	var s := consume_spin()
-	if s.y > 0:
-		velocity = normal * impact_speed * (s.y * FOLLOW_STEP)
-	elif s.y < 0:
-		velocity = normal * impact_speed * (s.y * DRAW_STEP)
-	elif s.x != 0:
+func apply_spin_on_enemy_hit(normal: Vector2, impact_speed: float, pre_hit_speed: float) -> void:
+	var spin_snapshot := consume_spin()
+	if spin_snapshot.y > 0:
+		velocity = normal * impact_speed * (spin_snapshot.y * FOLLOW_STEP)
+		velocity = velocity.limit_length(pre_hit_speed)
+	elif spin_snapshot.y < 0:
+		velocity = normal * impact_speed * (spin_snapshot.y * DRAW_STEP)
+		velocity = velocity.limit_length(pre_hit_speed)
+	elif spin_snapshot.x != 0:
 		var side := normal.rotated(PI / 2.0)
-		velocity += side * impact_speed * (s.x * SIDE_STEP)
+		velocity += side * impact_speed * (spin_snapshot.x * SIDE_STEP)
+		velocity = velocity.limit_length(pre_hit_speed)
 
 # --------- PREVIEW ----------
 func _refresh_preview() -> void:
