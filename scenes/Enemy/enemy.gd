@@ -2,6 +2,7 @@ extends CharacterBody2D
 class_name Enemy
 
 signal defeated(enemy: Enemy, cause: StringName)
+signal hold_ended
 
 @export var data: EnemyData
 @export var death_effect: PackedScene
@@ -21,8 +22,11 @@ var min_hit_speed: float
 var spell: Spell
 var is_dead := false
 var _sinking := false
+var is_held := false
+var hold_tween: Tween
 
 func _ready() -> void:
+	add_to_group("enemies")
 	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
 	if data:
 		_apply_data()
@@ -77,6 +81,21 @@ func knock(new_velocity: Vector2) -> void:
 	if is_dead or _sinking:
 		return
 	velocity = new_velocity
+	
+# ------ THROWN ---------
+func can_be_grabbed() -> bool:
+	return not (is_dead or _sinking or is_held)
+	
+func grab() -> void:
+	is_held = true
+	velocity = Vector2.ZERO
+	
+func release(new_velocity: Vector2) -> void:
+	is_held = false
+	hold_ended.emit()
+	knock(new_velocity)
+	
+# --------------------------------
 
 func _on_hitbox_body_entered(body: Node2D) -> void:
 	if body is not PlayerCharacter:
@@ -109,6 +128,13 @@ func is_settled() -> bool:
 func fall_into_pocket(pocket: Node2D) -> void:
 	if is_dead or _sinking:
 		return
+		
+	if is_held:
+		is_held = false
+		if hold_tween and hold_tween.is_valid():
+			hold_tween.kill()
+		hold_ended.emit()
+		
 	_sinking = true
 	velocity = Vector2.ZERO
 	collision_shape_2d.set_deferred("disabled", true)

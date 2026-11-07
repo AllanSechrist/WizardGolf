@@ -23,7 +23,6 @@ func _ready() -> void:
 func _spawn(point: EnemySpawnPoint) -> void:
 	var enemy: Enemy = enemy_scene.instantiate()
 	enemy.data = point.enemy_data
-	enemy.add_to_group("enemies")
 	enemy_container.add_child(enemy)
 	enemy.global_position = point.global_position
 	enemy.defeated.connect(_on_enemy_defeated)

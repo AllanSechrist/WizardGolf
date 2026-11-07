@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ThrowSpell" format=3 uid="uid://nk5cjm3yf7h0"]
+
+[ext_resource type="Script" uid="uid://b343poli47vpc" path="res://custom_resources/spells/throw/throw_spell.gd" id="1_4ntvd"]
+[ext_resource type="Texture2D" uid="uid://b54rljwkuxnd7" path="res://assets/UI/vines-eerie-1.png" id="1_ooe4o"]
+
+[resource]
+script = ExtResource("1_4ntvd")
+icon = ExtResource("1_ooe4o")
+metadata/_custom_type_script = "uid://b343poli47vpc"
