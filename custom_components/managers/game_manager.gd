@@ -36,6 +36,18 @@ func _ready() -> void:
 		_update_hud_for(party_manager.selected)
 	hud.visible = true
 	
+	#var e = get_tree().get_nodes_in_group("enemies")
+	#var p = get_tree().get_nodes_in_group("players")
+	#var h = get_tree().get_nodes_in_group("pockets")
+	#
+	#for node in e:
+		#print(node.name)
+		#
+	#for node in p:
+		#print(node.name)
+		#
+	#for node in h:
+		#print(node.name)
 # -------------- CAMERA ----------------
 func _on_selection_changed(character: PlayerCharacter) -> void:
 	_update_hud_for(character)

@@ -14,6 +14,7 @@ func _ready() -> void:
 	for child in get_children():
 		if child is PlayerCharacter:
 			party.append(child)
+			child.add_to_group("players")
 			child.turn_finished.connect(_on_character_turn_finished.bind(child))
 	start_party_turn()
 	
