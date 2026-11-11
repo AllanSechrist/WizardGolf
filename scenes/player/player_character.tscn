@@ -6,9 +6,16 @@
 [ext_resource type="Resource" uid="uid://bqahi4l3tjik5" path="res://custom_resources/characters/thief/thief.tres" id="2_ocp37"]
 [ext_resource type="Texture2D" uid="uid://chyg6ft0lpnfw" path="res://assets/Tiles/tile_0129.png" id="3_gmlin"]
 [ext_resource type="Script" uid="uid://dg73070mik3br" path="res://custom_components/state/finite_state_machine.gd" id="3_ocp37"]
+[ext_resource type="Script" uid="uid://b343poli47vpc" path="res://scenes/player/throw_ability.gd" id="3_t1eku"]
 [ext_resource type="Texture2D" uid="uid://o6nx0ncf4d7u" path="res://assets/Tiles/tile_0060.png" id="7_f85ux"]
 [ext_resource type="PackedScene" uid="uid://dhjnadck7cxei" path="res://scenes/FX/spin/spin_particles.tscn" id="8_ryjgy"]
 [ext_resource type="Script" uid="uid://qrtyrpuqkapt" path="res://scenes/player/spell_debug_draw.gd" id="9_wvac4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wvac4"]
+radius = 40.04997
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t1eku"]
+radius = 94.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qek5x"]
 bg_color = Color(0.060530342, 0.060530365, 0.060530297, 1)
@@ -30,6 +37,27 @@ collision_layer = 2
 motion_mode = 1
 script = ExtResource("1_dovo2")
 data = ExtResource("2_ocp37")
+
+[node name="ThrowAbility" type="Node2D" parent="." unique_id=1057644620]
+script = ExtResource("3_t1eku")
+
+[node name="GrabArea" type="Area2D" parent="ThrowAbility" unique_id=336870480]
+collision_layer = 0
+collision_mask = 4
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ThrowAbility/GrabArea" unique_id=776711725]
+shape = SubResource("CircleShape2D_wvac4")
+debug_color = Color(0.9254902, 0, 0, 0.41960785)
+
+[node name="PocketArea" type="Area2D" parent="ThrowAbility" unique_id=730944062]
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ThrowAbility/PocketArea" unique_id=601208395]
+shape = SubResource("CircleShape2D_t1eku")
+debug_color = Color(0, 0.66110414, 0.27374938, 0.41960785)
 
 [node name="FiniteStateMachine" type="Node" parent="." unique_id=290276585]
 script = ExtResource("3_ocp37")

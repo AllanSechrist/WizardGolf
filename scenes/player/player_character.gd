@@ -12,6 +12,7 @@ class_name PlayerCharacter
 @onready var selection_reticle: Sprite2D = $SelectionReticle
 @onready var spin_particles: SpinParticles = $SpinParticles
 @onready var spell_debug_draw: SpellDebugDraw = $SpellDebugDraw
+@onready var throw_ability: ThrowAbility = $ThrowAbility
 
 @export_category("Data")
 @export var data: CharacterData

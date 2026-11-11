@@ -23,6 +23,8 @@ func update_turn(new_turn: int) -> void:
 	turn.text = "Turn: %d" % new_turn
 	
 func update_spell(spell: Spell) -> void:
+	if spell == null:
+		return
 	print("HUD Spell: " + spell.name)
 	spell_icon.texture = spell.icon if spell else null
 	if spell:

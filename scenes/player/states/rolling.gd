@@ -30,6 +30,10 @@ func physics_update(_delta: float) -> void:
 		stopped.emit()
 		
 func unhandled_event(_event: InputEvent) -> void:
-	if _event.is_action_pressed("cast") and player.spell:
-		cast_pressed.emit()
-		player.cast_spell()
+	#if _event.is_action_pressed("cast") and player.spell:
+		#cast_pressed.emit()
+		#player.cast_spell()
+	if _event.is_action_pressed("throw"):
+		if player.throw_ability.throw():
+			pass
+	
