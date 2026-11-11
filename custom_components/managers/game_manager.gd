@@ -12,8 +12,8 @@ class_name GameManager
 var score := 0
 var turn := 1
 
-var _follow: RemoteTransform2D
-var _pan_tween: Tween
+#var _follow: RemoteTransform2D
+#var _pan_tween: Tween
 
 func _ready() -> void:
 	# Enemy Manager
