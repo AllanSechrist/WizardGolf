@@ -4,6 +4,7 @@ class_name CharacterData
 @export var icon: Texture2D
 @export var weapon: Texture2D
 @export var spell: Spell
+@export var move_style: MoveStyle # if left blank, will fall back to rolling
 
 @export_category("Stats")
 @export var min_shot := 35.0
