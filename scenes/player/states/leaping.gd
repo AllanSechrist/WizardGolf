@@ -22,17 +22,30 @@ func enter() -> void:
 	var start := player.global_position
 	var target := _find_landing(start, start + dir * distance)
 	
+	
 	player.velocity = Vector2.ZERO
 	_saved_layer = player.collision_layer
 	player.collision_layer = 0
 	
+	#var windup_point := start.lerp(target, 0.3)
+	#var windup_time = leap.leap_duration * 0.6
+	#var dash_time = leap.leap_duration * 0.4
+	
 	var tween := player.create_tween()
-	tween.tween_property(player, "global_position", target, leap.leap_duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(player, "global_position", target, leap.leap_duration).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
 	tween.finished.connect(_on_landed)
+	
+	#var tween := player.create_tween()
+	#tween.tween_property(player, "global_position", windup_point, windup_time) \
+		#.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	#tween.tween_property(player, "global_position", target, dash_time) \
+		#.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	#tween.finished.connect(_on_landed)
 
 func _on_landed() -> void:
 	_stomp_enemies()
 	player.collision_layer = _saved_layer
+	Effects.shake(shake_strength, shake_duration)
 	stopped.emit()
 
 func _stomp_enemies() -> void:
