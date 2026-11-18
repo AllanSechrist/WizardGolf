@@ -13,9 +13,7 @@
 [ext_resource type="Resource" uid="uid://diiekvhk606tc" path="res://custom_resources/enemies/evil_wizard_data.tres" id="5_qehtm"]
 [ext_resource type="Resource" uid="uid://ci3v4bg2b0re6" path="res://custom_resources/enemies/brawler_data.tres" id="6_7eq11"]
 [ext_resource type="Script" uid="uid://btbxoptas2ka8" path="res://custom_components/managers/party_manager.gd" id="9_e22dk"]
-[ext_resource type="Resource" uid="uid://cpk5lapi2kh82" path="res://custom_resources/characters/wizard/wizard_data.tres" id="10_7eq11"]
 [ext_resource type="Resource" uid="uid://1k7fe02qq2w5" path="res://custom_resources/characters/warrior/warrior.tres" id="11_8mdw8"]
-[ext_resource type="Resource" uid="uid://cc5ajsgyd1c3w" path="res://custom_resources/characters/cleric/cleric.tres" id="12_e22dk"]
 [ext_resource type="PackedScene" uid="uid://edbm2gyyx1ue" path="res://scenes/pocket/pocket.tscn" id="17_rtrq2"]
 [ext_resource type="PackedScene" uid="uid://d0m4sgnenj6sh" path="res://scenes/Enemy/enemy.tscn" id="18_covrc"]
 
@@ -64,20 +62,9 @@ spawn_root = NodePath("../EnemySpawns")
 position = Vector2(198, 6)
 script = ExtResource("9_e22dk")
 
-[node name="Wizard" parent="PartyManager" unique_id=1168880997 instance=ExtResource("2_hxtk3")]
-position = Vector2(200, 225)
-data = ExtResource("10_7eq11")
-
 [node name="Warrior" parent="PartyManager" unique_id=1514144025 instance=ExtResource("2_hxtk3")]
 position = Vector2(200, 250)
 data = ExtResource("11_8mdw8")
-
-[node name="Thief" parent="PartyManager" unique_id=1728837579 instance=ExtResource("2_hxtk3")]
-position = Vector2(200, 275)
-
-[node name="Cleric" parent="PartyManager" unique_id=511575997 instance=ExtResource("2_hxtk3")]
-position = Vector2(200, 300)
-data = ExtResource("12_e22dk")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1787881906]
 tile_map_data = PackedByteArray("AAApAAwAAAAAAAAAAAApAA0AAAAAAAAAAAApAA4AAAAAAAAAAAApAA8AAAAAAAAAAAApABAAAAAAAAAAAAApABEAAAAAAAAAAAApABIAAAAAAAAAAAApABMAAAAAAAAAAAApABQAAAAAAAAAAAApABUAAAAAAAAAAAApABYAAAAAAAAAAAAoABYAAAAAAAAAAAAnABYAAAAAAAAAAAAmABYAAAAAAAAAAAAlABYAAAAAAAAAAAAkABYAAAAAAAAAAAAjABYAAAAAAAAAAAAiABYAAAAAAAAAAAAhABYAAAAAAAAAAAAgABYAAAAAAAAAAAAfABYAAAAAAAAAAAAeABYAAAAAAAAAAAAdABYAAAAAAAAAAAAcABYAAAAAAAAAAAAbABYAAAAAAAAAAAAaABYAAAAAAAAAAAAZABYAAAAAAAAAAAAYABYAAAAAAAAAAAAXABYAAAAAAAAAAAAWABYAAAAAAAAAAAAWABUAAAAAAAAAAAAWABQAAAAAAAAAAAAWABMAAAAAAAAAAAAWABIAAAAAAAAAAAAWABEAAAAAAAAAAAAWABAAAAAAAAAAAAAWAA8AAAAAAAAAAAAWAA4AAAAAAAAAAAAWAA0AAAAAAAAAAAAWAAwAAAAAAAAAAAApAAsAAAAAAAAAAAAoAAsAAAAAAAAAAAAnAAsAAAAAAAAAAAAmAAsAAAAAAAAAAAAlAAsAAAAAAAAAAAAkAAsAAAAAAAAAAAAjAAsAAAAAAAAAAAAiAAsAAAAAAAAAAAAhAAsAAAAAAAAAAAAgAAsAAAAAAAAAAAAfAAsAAAAAAAAAAAAeAAsAAAAAAAAAAAAdAAsAAAAAAAAAAAAcAAsAAAAAAAAAAAAbAAsAAAAAAAAAAAAaAAsAAAAAAAAAAAAZAAsAAAAAAAAAAAAYAAsAAAAAAAAAAAAXAAsAAAAAAAAAAAAWAAsAAAAAAAAAAAA=")

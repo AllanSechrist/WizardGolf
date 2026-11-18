@@ -15,7 +15,6 @@ func physics_update(delta: float) -> void:
 	
 func unhandled_event(event: InputEvent) -> void:
 	if event.is_action_pressed("shoot"):
-		player.trigger_explosion()
 		shoot_pressed.emit()
 
 func exit() -> void:

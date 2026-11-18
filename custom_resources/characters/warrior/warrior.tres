@@ -1,11 +1,17 @@
-[gd_resource type="Resource" script_class="CharacterData" format=3 uid="uid://1k7fe02qq2w5"]
+[gd_resource type="Resource" script_class="WarriorData" format=3 uid="uid://1k7fe02qq2w5"]
 
-[ext_resource type="Script" uid="uid://bup0vtcpva3c5" path="res://custom_resources/characters/character_data.gd" id="1_spepm"]
+[ext_resource type="Script" uid="uid://ck2jh3l8p761e" path="res://custom_resources/movement/leap_move.gd" id="1_rmkgo"]
+[ext_resource type="Script" uid="uid://dbdpv6ud8iih" path="res://custom_resources/characters/warrior/WarriorData.gd" id="1_spepm"]
 [ext_resource type="Texture2D" uid="uid://bc0daen3kvsxr" path="res://assets/Tiles/tile_0087.png" id="3_dfrw8"]
 [ext_resource type="Texture2D" uid="uid://dem67ne0eggfd" path="res://assets/Tiles/tile_0118.png" id="4_b8cjq"]
+
+[sub_resource type="Resource" id="Resource_fj0ly"]
+script = ExtResource("1_rmkgo")
+metadata/_custom_type_script = "uid://ck2jh3l8p761e"
 
 [resource]
 script = ExtResource("1_spepm")
 icon = ExtResource("3_dfrw8")
 weapon = ExtResource("4_b8cjq")
-metadata/_custom_type_script = "uid://bup0vtcpva3c5"
+move_style = SubResource("Resource_fj0ly")
+metadata/_custom_type_script = "uid://dbdpv6ud8iih"

@@ -48,6 +48,8 @@ var max_curve := 10.0
 var max_spin: int
 var spin := Vector2i.ZERO
 
+var move_style: MoveStyle
+
 var shot_curve := 0.0:
 	set(value):
 		shot_curve = value
@@ -96,6 +98,7 @@ func _apply_data() -> void:
 	meter_speed = data.meter_speed
 	linear_damp = data.linear_damp
 	stop_speed = data.stop_speed
+	move_style = data.move_style
 # -------------- STATE --------------
 func _on_state_changed() -> void:
 	fsm_debug_label.text = fsm.current_state.get_script().get_global_name()
@@ -111,8 +114,12 @@ func _aiming() -> void:
 	
 func _charging() -> void:
 	var charging_state := fsm.change_state(PlayerChargingState) as PlayerChargingState
-	charging_state.shoot_pressed.connect(_rolling, CONNECT_ONE_SHOT)
-	
+	charging_state.shoot_pressed.connect(_launch, CONNECT_ONE_SHOT)
+
+func _leaping() -> void:
+	var leaping_state := fsm.change_state(PlayerLeapingState) as PlayerLeapingState
+	leaping_state.stopped.connect(_on_shot_finished, CONNECT_ONE_SHOT)
+
 func _rolling() -> void:
 	var rolling_state := fsm.change_state(PlayerRollingState) as PlayerRollingState
 	rolling_state.cast_pressed.connect(_casting, CONNECT_ONE_SHOT)
@@ -125,7 +132,13 @@ func _casting() -> void:
 	
 func _unselected() -> void:
 	var _unselected_state := fsm.change_state(PlayerUnselectedState) as PlayerUnselectedState
-	
+
+func _launch() -> void:
+	if data.get_shot_state() == PlayerLeapingState:
+		_leaping()
+	else:
+		trigger_explosion()
+		_rolling()
 
 # --------------------------------------
 func aim() -> void:

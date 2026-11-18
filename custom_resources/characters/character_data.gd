@@ -26,3 +26,6 @@ class_name CharacterData
 
 @export_category("Meter")
 @export var meter_speed: float = 1.1
+
+func get_shot_state() -> GDScript:
+	return PlayerRollingState

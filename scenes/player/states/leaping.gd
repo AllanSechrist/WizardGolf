@@ -1,7 +1,8 @@
 extends State
 class_name PlayerLeapingState
 
-signal stopped
+@export var shake_strength := 4.0
+@export var shake_duration := 0.2
 
 const LANDING_STEP := 4.0
 const ENEMY_MASK := 1 << 2
@@ -9,9 +10,13 @@ const ENEMY_MASK := 1 << 2
 var player: PlayerCharacter
 var _saved_layer: int
 
+signal stopped
+
 func enter() -> void:
+	player = actor as PlayerCharacter
 	var leap = _get_leap_settings()
-	var dir := (player.global_position - player.get_global_mouse_position()).normalized()
+	var dir := player.direction_snapshot
+	player.direction_snapshot = Vector2.ZERO
 	var distance := lerpf(leap.min_distance, leap.max_distance, player.shot_power)
 	
 	var start := player.global_position
