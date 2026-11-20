@@ -43,26 +43,38 @@ func enter() -> void:
 	#tween.finished.connect(_on_landed)
 
 func _on_landed() -> void:
-	_stomp_enemies()
+	_resolve_landing()
 	player.collision_layer = _saved_layer
 	Effects.shake(shake_strength, shake_duration)
 	stopped.emit()
 
-func _stomp_enemies() -> void:
+func _resolve_landing() -> void:
+	var leap = _get_leap_settings()
+	var center := player.global_position
+
+	for enemy in _get_enemies_in_radius(center, leap.knockback_radius):
+		var offset := enemy.global_position - center
+		if offset.length() <= leap.stomp_radius:
+			enemy.die(&"stomp")
+		else:
+			enemy.knock(offset.normalized() * leap.knockback_strength)
+
+func _get_enemies_in_radius(center: Vector2, radius: float) -> Array[Enemy]:
 	var circle := CircleShape2D.new()
-	circle.radius = _get_leap_settings().stomp_radius
+	circle.radius = radius
 
 	var query := PhysicsShapeQueryParameters2D.new()
 	query.shape = circle
-	query.transform = Transform2D(0.0, player.global_position)
+	query.transform = Transform2D(0.0, center)
 	query.collision_mask = ENEMY_MASK
-	query.collide_with_areas = false  # only hit the enemy bodies, not their Hitbox areas
+	query.collide_with_areas = false
 
-	var space := player.get_world_2d().direct_space_state
-	for hit in space.intersect_shape(query, 8):
+	var enemies: Array[Enemy] = []
+	for hit in player.get_world_2d().direct_space_state.intersect_shape(query, 16):
 		var enemy := hit.collider as Enemy
 		if enemy:
-			enemy.die(&"stomp")
+			enemies.append(enemy)
+	return enemies
 
 func _find_landing(start: Vector2, target: Vector2) -> Vector2:
 	var shape_node: CollisionShape2D = player.get_node("CollisionShape2D")
